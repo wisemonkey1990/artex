@@ -23,7 +23,7 @@ func TestWebUIStubErrorLocalized(t *testing.T) {
 		t.Fatalf("상태 코드가 404 가 아닙니다: %d", rec.Code)
 	}
 	body := strings.TrimSpace(rec.Body.String())
-	assertKoreanError(t, "webui.stub", body)
+	assertChineseMessage(t, "webui.stub", body)
 	// 명령 참조는 원문 그대로 보존되어야 한다(번역 대상 아님).
 	for _, want := range []string{"next dev", "-tags embedui"} {
 		if !strings.Contains(body, want) {

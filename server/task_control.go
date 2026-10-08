@@ -19,17 +19,17 @@ const maxBatchControlIDs = 100
 // 배치(controlTasksBatch) 제어 응답이 주 용도이며, 오케스트레이터 pause 도구
 // (orchestration.go)가 err.Error() 를 재참조할 때도 같은 문구가 쓰인다.
 const (
-	errTaskCtrlDeleting      = "작업을 삭제하는 중이라 제어할 수 없습니다"
-	errTaskCtrlTerminalPause = "종료된 작업은 일시정지할 수 없습니다"
-	errTaskCtrlAlreadyPaused = "작업이 이미 일시정지되어 있습니다"
-	errTaskCtrlBatchSizeFmt  = "task_ids 개수는 1~%d개여야 합니다"
+	errTaskCtrlDeleting      = "正在删除任务，无法进行控制"
+	errTaskCtrlTerminalPause = "无法暂停已结束的任务"
+	errTaskCtrlAlreadyPaused = "任务已暂停"
+	errTaskCtrlBatchSizeFmt  = "task_ids 数量必须为 1 至 %d"
 
-	errIntentCtrlInheritedReadonly = "상속된 의도는 읽기 전용이라 제어할 수 없습니다"
-	errIntentCtrlOnlyRunningPause  = "실행 중인 의도만 일시정지할 수 있습니다"
-	errIntentCtrlOnlyPausedResume  = "일시정지된 의도만 재개할 수 있습니다"
-	errIntentCtrlStateConflictFmt  = "%w: 의도가 더 이상 paused 상태가 아닙니다"
-	errIntentCtrlOnlyDeletable     = "대기 중·실행 중·일시정지 상태의 의도만 삭제할 수 있습니다"
-	errIntentCtrlReasonRequired    = "삭제 사유를 입력하세요"
+	errIntentCtrlInheritedReadonly = "继承的意图为只读，无法控制"
+	errIntentCtrlOnlyRunningPause  = "只能暂停正在运行的意图"
+	errIntentCtrlOnlyPausedResume  = "只能恢复已暂停的意图"
+	errIntentCtrlStateConflictFmt  = "%w：意图已不再处于 paused 状态"
+	errIntentCtrlOnlyDeletable     = "只能删除排队中、运行中或已暂停的意图"
+	errIntentCtrlReasonRequired    = "请输入删除原因"
 )
 
 type taskControlResult struct {
@@ -163,7 +163,7 @@ func (s *Server) applyTaskControlWithCause(t *Task, action string, pauseCause er
 	default:
 		return out, fmt.Errorf("action must be pause|resume")
 	}
-	log.Printf("[task] #%s %s", t.ID, map[string]string{"pause": "일시정지됨", "resume": "재개됨"}[action])
+	log.Printf("[task] #%s %s", t.ID, map[string]string{"pause": "已暂停", "resume": "已恢复"}[action])
 	return out, nil
 }
 

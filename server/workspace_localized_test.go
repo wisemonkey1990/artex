@@ -26,7 +26,7 @@ func TestWorkspaceErrorConstantsLocalized(t *testing.T) {
 		"uploadParse":      errWsUploadParse,
 		"noUploadFile":     errWsNoUploadFile,
 	} {
-		assertKoreanError(t, label, msg)
+		assertChineseMessage(t, label, msg)
 	}
 }
 
@@ -84,7 +84,7 @@ func TestWorkspaceHandlerResponsesLocalized(t *testing.T) {
 			if got != c.want {
 				t.Fatalf("error = %q, want %q", got, c.want)
 			}
-			assertKoreanError(t, c.name, got)
+			assertChineseMessage(t, c.name, got)
 		})
 	}
 }

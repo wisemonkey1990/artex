@@ -56,13 +56,13 @@ func TestFeishuItemLinesLocalized(t *testing.T) {
 // TestFeishuCardButtonsLocalized 는 飞书 카드 버튼 라벨(상세 보기·플랫폼에서 전체 보기)이
 // 한국어인지, 카드 전체에 중국어 한자가 없는지(ASCII 데이터 기준) 검사한다.
 func TestFeishuCardButtonsLocalized(t *testing.T) {
-	// 단건: "상세 보기" 버튼(DetailURL 있을 때)
+	// 단건: "查看详情" 버튼(DetailURL 있을 때)
 	single, _ := feishuCard(Message{Items: []Item{asciiStatusChangeItem()}})
 	singleJSON := mustJSON(t, single)
 	if hasHan(singleJSON) {
 		t.Errorf("단건 飞书 카드에 중국어 한자가 남았습니다:\n%s", singleJSON)
 	}
-	if !strings.Contains(singleJSON, "상세 보기") {
+	if !strings.Contains(singleJSON, "查看详情") {
 		t.Errorf("단건 飞书 카드에 '상세 보기' 버튼이 있어야 합니다:\n%s", singleJSON)
 	}
 
@@ -77,7 +77,7 @@ func TestFeishuCardButtonsLocalized(t *testing.T) {
 	}
 }
 
-// TestDingTalkActionCardButtonLocalized 는 钉钉 ActionCard 의 "상세 보기" 버튼(singleTitle)이
+// TestDingTalkActionCardButtonLocalized 는 钉钉 ActionCard 의 "查看详情" 버튼(singleTitle)이
 // 한국어인지 실제 Send 경로(가짜 수신단)로 검사한다.
 func TestDingTalkActionCardButtonLocalized(t *testing.T) {
 	var singleTitle string
@@ -89,7 +89,7 @@ func TestDingTalkActionCardButtonLocalized(t *testing.T) {
 	if _, err := (dingTalkChannel{}).Send(context.Background(), map[string]any{"webhook": srv.URL}, m); err != nil {
 		t.Fatalf("투递 실패: %v", err)
 	}
-	if singleTitle != "상세 보기" {
+	if singleTitle != "查看详情" {
 		t.Errorf("钉钉 ActionCard singleTitle 은 '상세 보기' 여야 합니다, 받은 값 %q", singleTitle)
 	}
 }
@@ -103,7 +103,7 @@ func TestChinaPlatformValidateLocalized(t *testing.T) {
 			t.Fatalf("%s 채널이 등록되어 있지 않습니다", kind)
 		}
 
-		// 빈 설정: "Webhook 주소가 없습니다"
+		// 빈 설정: "未提供 Webhook 地址"
 		missing := ch.Validate(map[string]any{})
 		if missing == nil {
 			t.Fatalf("%s: 빈 설정은 검증에 실패해야 합니다", kind)
@@ -121,7 +121,7 @@ func TestChinaPlatformValidateLocalized(t *testing.T) {
 		if hasHan(bad.Error()) {
 			t.Errorf("%s: 잘못된 주소 오류에 중국어 한자가 남았습니다: %q", kind, bad)
 		}
-		if !strings.Contains(bad.Error(), "Webhook 주소가 올바르지 않습니다") {
+		if !strings.Contains(bad.Error(), "Webhook 地址无效") {
 			t.Errorf("%s: 잘못된 주소 오류는 'Webhook 주소가 올바르지 않습니다' 로 시작해야 합니다, 받은 값 %q", kind, bad)
 		}
 	}

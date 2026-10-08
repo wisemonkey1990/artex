@@ -10,8 +10,8 @@ const loaders: Record<Locale, () => Promise<{ default: Record<string, unknown> }
 };
 
 // next-intl 요청 설정. i18n 경로 라우팅(세그먼트·미들웨어)을 쓰지 않는 구성이라
-// locale 을 여기서 직접 정한다. requestLocale 은 참조하지 않으므로 동적 렌더링을
-// 유발하지 않고, 원문 중국어는 messages/zh.json 에 보존, 한국어는 messages/ko.json 에 둔다.
+// locale 在此处直接确定，不读取 requestLocale，以兼容静态导出。
+// 简体中文和韩语文案分别保存在 messages/zh.json 与 messages/ko.json。
 export default getRequestConfig(async () => {
   const locale = resolveLocale();
   const messages = (await loaders[locale]()).default;

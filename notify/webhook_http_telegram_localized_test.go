@@ -42,7 +42,7 @@ func TestTelegramItemLabelsLocalized(t *testing.T) {
 	if hasHan(out) {
 		t.Errorf("Telegram 본문에 중국어 한자가 남아 있습니다:\n%s", out)
 	}
-	for _, want := range []string{"상태 변경", "유형", "자산", "개요", "상세 보기"} {
+	for _, want := range []string{"상태 변경", "유형", "자산", "概述", "查看详情"} {
 		if !strings.Contains(out, want) {
 			t.Errorf("Telegram 본문에 %q 라벨이 없습니다:\n%s", want, out)
 		}
@@ -107,13 +107,13 @@ func TestWebhookValidateLocalized(t *testing.T) {
 			t.Errorf("대상 URL 누락을 알려줘야 합니다: %q", err.Error())
 		}
 	}
-	// 지원하지 않는 메서드: 한국어 + 허용 목록 노출.
+	// 지원하지 않는 메서드: 한국어 + 允许 목록 노출.
 	if err := (webhookChannel{}).Validate(map[string]any{"url": "https://example.com/hook", "method": "DELETE"}); err == nil {
 		t.Fatal("DELETE 는 검증 실패여야 합니다")
 	} else {
 		assertKorean(t, "webhook Validate(method)", err.Error())
 		if !strings.Contains(err.Error(), "GET/POST/PUT/PATCH") {
-			t.Errorf("허용 메서드 목록을 알려줘야 합니다: %q", err.Error())
+			t.Errorf("允许 메서드 목록을 알려줘야 합니다: %q", err.Error())
 		}
 	}
 	// 템플릿 문법 오류: 한국어(래핑된 원인은 Go 템플릿 오류라 한자가 없다).
@@ -148,17 +148,17 @@ func TestValidateHTTPURLLocalized(t *testing.T) {
 	}
 }
 
-// TestHTTPLocalTargetBlockedLocalized 는 로컬/링크 로컬 주소 차단 오류가 한국어이고
+// TestHTTPLocalTargetBlockedLocalized 는 로컬/링크 로컬 주소 拦截 오류가 한국어이고
 // 우회 방법(환경 변수)을 알려 주는지 확인한다.
 func TestHTTPLocalTargetBlockedLocalized(t *testing.T) {
-	t.Setenv(AllowLocalTargetsEnv, "") // 명시적으로 꺼서 차단 경로를 탄다
+	t.Setenv(AllowLocalTargetsEnv, "") // 명시적으로 꺼서 拦截 경로를 탄다
 	err := blockInternalDial("tcp", "127.0.0.1:25", nil)
 	if err == nil {
-		t.Fatal("로컬 주소는 기본적으로 차단되어야 합니다")
+		t.Fatal("로컬 주소는 기본적으로 拦截되어야 합니다")
 	}
 	assertKorean(t, "blockInternalDial", err.Error())
 	if !strings.Contains(err.Error(), AllowLocalTargetsEnv) {
-		t.Errorf("차단 오류는 우회 방법(%s)을 알려줘야 합니다: %q", AllowLocalTargetsEnv, err.Error())
+		t.Errorf("拦截 오류는 우회 방법(%s)을 알려줘야 합니다: %q", AllowLocalTargetsEnv, err.Error())
 	}
 }
 
@@ -180,7 +180,7 @@ func TestHTTPRedactHelpersLocalized(t *testing.T) {
 
 // TestHTTPStatusErrorsLocalized 는 실제 doJSON 왕복으로 상태코드 분류(거부/서버
 // 오류/제한)의 사용자 노출 오류가 한국어인지 확인한다. 127.0.0.1 httptest 로의
-// 전송은 기본 차단이라 이 테스트에서만 명시적으로 허용한다.
+// 전송은 기본 拦截이라 이 테스트에서만 명시적으로 允许한다.
 func TestHTTPStatusErrorsLocalized(t *testing.T) {
 	t.Setenv(AllowLocalTargetsEnv, "1")
 	cases := []struct {

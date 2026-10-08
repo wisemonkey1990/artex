@@ -44,7 +44,7 @@ func TestSeverityLabelLocalized(t *testing.T) {
 	// 중국어 라벨(严重/高危/中危/低危) → 한국어(심각/높음/중간/낮음), UI status.severity 정합.
 	want := map[string]string{
 		"critical": "심각",
-		"high":     "높음",
+		"high":     "高危",
 		"medium":   "중간",
 		"low":      "낮음",
 	}
