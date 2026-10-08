@@ -5,9 +5,9 @@
  *
  * `src/` 아래 모든 `.ts`/`.tsx` 를 TypeScript AST 로 파싱해, 사용자에게 노출되는
  * 하드코딩 중국어 문자열만 뽑아낸다. 추출 대상은 세 종류다.
- *   1) 문자열 리터럴            예) title: "仪表盘"
- *   2) 템플릿 리터럴            예) `已删除 ${n} 个对话` → "已删除 {var0} 个对话"
- *   3) JSX 텍스트 노드          예) <span>故障转移</span>
+ *   1) 字符串字面量            예) title: "仪表盘"
+ *   2) 模板字符串            예) `已删除 ${n} 个对话` → "已删除 {var0} 个对话"
+ *   3) JSX 文本 노드          예) <span>故障转移</span>
  * 주석(`//`, `/* *\/`)은 AST 노드가 아니므로 저절로 제외된다. 선행·후행 주석에
  * 들어 있는 중국어는 번역 대상이 아니다(BRIEF: 주석 번역은 우선순위 최하).
  *
@@ -90,7 +90,7 @@ function collectFiles(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-/** 템플릿 리터럴을 "리터럴 부분 + {varN}" 으로 재구성. 반환 null = 리터럴 부분에 한자 없음. */
+/** 模板字符串을 "리터럴 부분 + {varN}" 으로 재구성. 반환 null = 리터럴 부분에 한자 없음. */
 function reconstructTemplate(node: ts.TemplateExpression): { text: string; placeholders: string[] } | null {
   let text = node.head.text;
   const placeholders: string[] = [];
@@ -105,7 +105,7 @@ function reconstructTemplate(node: ts.TemplateExpression): { text: string; place
   return { text, placeholders };
 }
 
-/** JSX 텍스트 정규화: 양끝 공백 제거 + 내부 연속 공백/줄바꿈을 한 칸으로(브라우저 렌더 규칙과 동일). */
+/** JSX 文本 정규화: 양끝 공백 제거 + 내부 연속 공백/줄바꿈을 한 칸으로(브라우저 렌더 규칙과 동일). */
 function normalizeJsxText(raw: string): string {
   return raw.replace(/\s+/g, " ").trim();
 }
@@ -145,7 +145,7 @@ for (const absFile of scannedFiles) {
 
   const visit = (node: ts.Node): void => {
     if (ts.isStringLiteralLike(node) && !ts.isTemplateExpression(node.parent)) {
-      // 문자열 리터럴 + 치환 없는 템플릿. (치환 있는 템플릿의 head/middle 은 여기 안 걸림)
+      // 字符串字面量 + 치환 없는 템플릿. (치환 있는 템플릿의 head/middle 은 여기 안 걸림)
       if (HAN.test(node.text)) {
         record(ns, node.text, "string", [], relFile, lineOf(node.getStart(sf)));
         markLine(node.getStart(sf));
@@ -251,7 +251,7 @@ for (const msg of messages.values()) {
   totalOccurrences += msg.occurrences.length;
 }
 
-// 커버리지 추정: 한자 포함 소스 줄 중, 추출 노드가 걸린 줄의 비율.
+// 커버리지 추정: 含汉字的源码行数 중, 추출 노드가 걸린 줄의 비율.
 // 나머지는 거의 주석(=번역 비대상)이다.
 let hanLines = 0;
 let capturedHanLines = 0;
@@ -270,23 +270,23 @@ for (const absFile of scannedFiles) {
 const topNs = [...byNs.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15);
 
 console.log("─".repeat(64));
-console.log("ARTEX i18n 추출 완료");
+console.log("ARTEX i18n 文案提取完成");
 console.log("─".repeat(64));
-console.log(`스캔한 파일            : ${scannedFiles.length} (src/ 아래 .ts/.tsx, scripts 제외)`);
-console.log(`한자 포함 파일         : ${fileWithHan}`);
-console.log(`고유 메시지(키)        : ${messages.size}`);
-console.log(`  ├─ 문자열 리터럴      : ${byKind.string}`);
-console.log(`  ├─ 템플릿 리터럴      : ${byKind.template}`);
-console.log(`  └─ JSX 텍스트         : ${byKind.jsx}`);
-console.log(`총 출현 위치           : ${totalOccurrences} (중복 사용 포함)`);
-console.log(`네임스페이스 수        : ${byNs.size}`);
+console.log(`扫描文件数            : ${scannedFiles.length} （扫描 src/ 下的 .ts/.tsx，不含 scripts）`);
+console.log(`包含汉字的文件         : ${fileWithHan}`);
+console.log(`唯一文案（键）        : ${messages.size}`);
+console.log(`  ├─ 字符串字面量      : ${byKind.string}`);
+console.log(`  ├─ 模板字符串      : ${byKind.template}`);
+console.log(`  └─ JSX 文本         : ${byKind.jsx}`);
+console.log(`出现位置总数           : ${totalOccurrences} （含重复使用）`);
+console.log(`命名空间数        : ${byNs.size}`);
 console.log("");
-console.log(`한자 포함 소스 줄       : ${hanLines}`);
-console.log(`  └─ 추출로 포착된 줄   : ${capturedHanLines} (${((capturedHanLines / hanLines) * 100).toFixed(1)}%)`);
-console.log(`     나머지 ${hanLines - capturedHanLines} 줄은 대부분 코드 주석(번역 비대상)`);
+console.log(`含汉字的源码行数       : ${hanLines}`);
+console.log(`  └─ 已提取的行数   : ${capturedHanLines} (${((capturedHanLines / hanLines) * 100).toFixed(1)}%)`);
+console.log(`     其余 ${hanLines - capturedHanLines} 行大多是代码注释（无需翻译）`);
 console.log("");
-console.log("메시지 많은 네임스페이스 상위 15:");
+console.log("文案数量最多的前 15 个命名空间：");
 for (const [ns, n] of topNs) console.log(`  ${String(n).padStart(4)}  ${ns}`);
 console.log("");
-console.log(`출력: web/messages/{zh.json, ko.json, zh.sources.json}`);
+console.log(`输出：web/messages/{zh.json, ko.json, zh.sources.json}`);
 console.log("─".repeat(64));

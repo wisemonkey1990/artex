@@ -34,7 +34,7 @@ func TestHTMLItemLabelsLocalized(t *testing.T) {
 		t.Errorf("이메일 본문에 중국어 한자가 남아 있습니다:\n%s", out)
 	}
 	for _, want := range []string{
-		"상태 변경", "유형", "자산", "개요", "상세 보기", "플랫폼에서 전체 보기",
+		"상태 변경", "유형", "자산", "概述", "查看详情", "플랫폼에서 전체 보기",
 	} {
 		if !strings.Contains(out, want) {
 			t.Errorf("이메일 본문에 %q 라벨이 없습니다:\n%s", want, out)

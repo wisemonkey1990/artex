@@ -37,7 +37,7 @@ func TestTaskCategoryErrorConstantsLocalized(t *testing.T) {
 		"errTaskCatBatchSizeFmt":    fmt.Sprintf(errTaskCatBatchSizeFmt, db.MaxTaskCategoryBatchSize),
 	}
 	for label, msg := range cases {
-		assertKoreanError(t, label, msg)
+		assertChineseMessage(t, label, msg)
 	}
 }
 
@@ -55,11 +55,11 @@ func TestTaskCategoryResponsesLocalized(t *testing.T) {
 		}
 		return decodeErrorField(t, rec.Body.Bytes())
 	}
-	assertKoreanError(t, "name-empty", decodeCase("name-empty", `{"name":"   "}`))
-	assertKoreanError(t, "name-too-long",
+	assertChineseMessage(t, "name-empty", decodeCase("name-empty", `{"name":"   "}`))
+	assertChineseMessage(t, "name-too-long",
 		decodeCase("name-too-long", `{"name":"`+strings.Repeat("가", db.MaxTaskCategoryNameRunes+1)+`"}`))
 	// The body exceeds maxTaskCategoryRequestBytes, so MaxBytesReader errors mid-decode.
-	assertKoreanError(t, "too-large",
+	assertChineseMessage(t, "too-large",
 		decodeCase("too-large", `{"name":"`+strings.Repeat("a", maxTaskCategoryRequestBytes+1)+`"}`))
 
 	// parseCategoryIDField — a zero/negative category_id is rejected.
@@ -67,7 +67,7 @@ func TestTaskCategoryResponsesLocalized(t *testing.T) {
 	if _, ok := parseCategoryIDField(rec, json.RawMessage("0")); ok {
 		t.Fatal("invalid id 가 통과해서는 안 됩니다")
 	}
-	assertKoreanError(t, "invalid-id", decodeErrorField(t, rec.Body.Bytes()))
+	assertChineseMessage(t, "invalid-id", decodeErrorField(t, rec.Body.Bytes()))
 
 	// writeTaskCategoryError — the name-conflict sentinel maps to the Korean 409.
 	rec = httptest.NewRecorder()
@@ -75,7 +75,7 @@ func TestTaskCategoryResponsesLocalized(t *testing.T) {
 	if rec.Code != http.StatusConflict {
 		t.Fatalf("conflict status=%d, want 409", rec.Code)
 	}
-	assertKoreanError(t, "name-conflict", decodeErrorField(t, rec.Body.Bytes()))
+	assertChineseMessage(t, "name-conflict", decodeErrorField(t, rec.Body.Bytes()))
 
 	// Batch move — an empty selection is rejected before any DB access, so a
 	// zero-value Server reaches the guard without dereferencing s.m.
@@ -86,5 +86,5 @@ func TestTaskCategoryResponsesLocalized(t *testing.T) {
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("empty batch status=%d, want 400 (body %s)", rec.Code, rec.Body.String())
 	}
-	assertKoreanError(t, "batch-size", decodeErrorField(t, rec.Body.Bytes()))
+	assertChineseMessage(t, "batch-size", decodeErrorField(t, rec.Body.Bytes()))
 }

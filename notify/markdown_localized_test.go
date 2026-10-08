@@ -52,7 +52,7 @@ func TestMarkdownBatchIntroLocalized(t *testing.T) {
 	if hasHan(win) {
 		t.Errorf("시간창 머리말에 중국어 한자가 남았습니다: %q", win)
 	}
-	if !strings.Contains(win, "최근 30분간") || !strings.Contains(win, "신규 취약점 3건") {
+	if !strings.Contains(win, "최근 30분간") || !strings.Contains(win, "新增漏洞 3 项") {
 		t.Errorf("시간창 머리말이 '최근 30분간 신규 취약점 3건' 형태여야 합니다, 받은 값 %q", win)
 	}
 
@@ -61,7 +61,7 @@ func TestMarkdownBatchIntroLocalized(t *testing.T) {
 	if hasHan(noWin) {
 		t.Errorf("머리말에 중국어 한자가 남았습니다: %q", noWin)
 	}
-	if !strings.Contains(noWin, "신규 취약점 3건") || strings.Contains(noWin, "분간") {
+	if !strings.Contains(noWin, "新增漏洞 3 项") || strings.Contains(noWin, "분간") {
 		t.Errorf("시간창 없는 머리말은 '신규 취약점 3건'(분간 표기 없음)이어야 합니다, 받은 값 %q", noWin)
 	}
 

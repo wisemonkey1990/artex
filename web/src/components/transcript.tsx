@@ -135,11 +135,11 @@ function ActivityTime({ ts }: { ts: string }) {
   return (
     <time
       dateTime={date.toISOString()}
-      title={date.toLocaleString("ko-KR")}
+      title={date.toLocaleString("zh-CN")}
       className="text-[10px] text-muted-foreground tabular-nums"
       suppressHydrationWarning
     >
-      {date.toLocaleString("ko-KR", {
+      {date.toLocaleString("zh-CN", {
         month: "2-digit",
         day: "2-digit",
         hour: "2-digit",
@@ -189,8 +189,8 @@ function InterceptCard({ step, getDetail }: { step: Activity; getDetail: (seq: n
   }, [step.summary]);
 
   const toolName = React.useMemo(() => {
-    const m = /도구\s+(\S+)\s+승인/.exec(step.summary);
-    return m ? m[1] : step.summary;
+    const m = /(?:工具\s+(\S+)\s+审批|도구\s+(\S+)\s+승인)/.exec(step.summary);
+    return m ? (m[1] || m[2]) : step.summary;
   }, [step.summary]);
 
   const [detail, setDetail] = React.useState<Record<string, unknown> | null>(null);

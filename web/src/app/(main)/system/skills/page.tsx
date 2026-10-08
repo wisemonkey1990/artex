@@ -43,7 +43,7 @@ import { cn } from "@/lib/utils";
 
 function fmtTime(ts: string | undefined, never: string) {
   if (!ts) return never;
-  return new Date(ts).toLocaleString("ko-KR", {
+  return new Date(ts).toLocaleString("zh-CN", {
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
@@ -401,7 +401,7 @@ export default function SkillsPage() {
       const msg = (e as Error).message;
       // offer overwrite when the skill already exists
       // (server_mgmt.go errMgmtSkillExistsPre 와 짝 맞춘 교차 스택 마커)
-      if (!overwrite && msg.includes("이미 존재")) {
+      if (!overwrite && msg.includes("已存在")) {
         if (window.confirm(t("overwriteConfirm", { msg }))) {
           await uploadZip(file, true);
           return;

@@ -15,11 +15,11 @@ import (
 // leftover Chinese Han characters. The format constant is checked after
 // formatting so the %s/%d verbs resolve to a concrete message.
 func TestTaskTemplateErrorConstantsLocalized(t *testing.T) {
-	assertKoreanError(t, "request-too-large", errTaskTemplateRequestTooLarge)
-	assertKoreanError(t, "name-conflict", errTaskTemplateNameConflict)
-	assertKoreanError(t, "rule-invalid", errTaskTemplateRuleInvalid)
-	assertKoreanError(t, "no-fields", errTaskTemplateNoFields)
-	assertKoreanError(t, "field-too-long",
+	assertChineseMessage(t, "request-too-large", errTaskTemplateRequestTooLarge)
+	assertChineseMessage(t, "name-conflict", errTaskTemplateNameConflict)
+	assertChineseMessage(t, "rule-invalid", errTaskTemplateRuleInvalid)
+	assertChineseMessage(t, "no-fields", errTaskTemplateNoFields)
+	assertChineseMessage(t, "field-too-long",
 		fmt.Sprintf(errTaskTemplateFieldTooLongFmt, "name", db.MaxTaskTemplateNameRunes))
 }
 
@@ -40,7 +40,7 @@ func TestTaskTemplateResponsesLocalized(t *testing.T) {
 	if rec.Code != http.StatusRequestEntityTooLarge {
 		t.Fatalf("too-large status=%d, want 413", rec.Code)
 	}
-	assertKoreanError(t, "too-large", decodeErrorField(t, rec.Body.Bytes()))
+	assertChineseMessage(t, "too-large", decodeErrorField(t, rec.Body.Bytes()))
 
 	// validateTaskTemplateRequest — a name past the rune limit returns the
 	// Korean field-too-long error (surfaced via writeErr in the handlers).
@@ -49,7 +49,7 @@ func TestTaskTemplateResponsesLocalized(t *testing.T) {
 	if err == nil {
 		t.Fatal("name-too-long: 검증이 통과해서는 안 됩니다")
 	}
-	assertKoreanError(t, "name-too-long", err.Error())
+	assertChineseMessage(t, "name-too-long", err.Error())
 
 	// writeTaskTemplateErr — the name-conflict sentinel maps to the Korean 409.
 	rec = httptest.NewRecorder()
@@ -57,5 +57,5 @@ func TestTaskTemplateResponsesLocalized(t *testing.T) {
 	if rec.Code != http.StatusConflict {
 		t.Fatalf("name-conflict status=%d, want 409", rec.Code)
 	}
-	assertKoreanError(t, "name-conflict-response", decodeErrorField(t, rec.Body.Bytes()))
+	assertChineseMessage(t, "name-conflict-response", decodeErrorField(t, rec.Body.Bytes()))
 }
