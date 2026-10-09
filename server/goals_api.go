@@ -9,9 +9,9 @@ import (
 	"github.com/Autumn-27/artex/db"
 )
 
-// goals_api.go 가 사용자에게 돌려주는 오류 응답 문구. 명령·요청 필드명(text·vulnclass·
-// gid)·enum 은 원문 그대로 두고, 사람이 읽는 메시지만 한국어로 둔다. 영어 writeErr
-// (task not found·invalid JSON·bad goal id)는 F3b 중국어 전용 범위라 보존한다.
+// 说明。
+// 说明。
+// 说明。
 const (
 	errGoalTaskDeletingAdd    = "正在删除任务，无法添加目标"
 	errGoalTaskDeletingEdit   = "正在删除任务，无法修改目标"

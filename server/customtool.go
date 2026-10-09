@@ -42,9 +42,9 @@ type customToolReq struct {
 
 var reToolKey = reAgentKey // 同 agent key 规则:小写字母开头 + 小写字母/数字/下划线
 
-// 사용자 지정 도구 CRUD·시험 실행 엔드포인트가 writeErr 로 사용자에게 돌려주는 검증
-// 오류 응답을 한국어로 고정한다. 에이전트가 읽는 도구 실행 결과(actool.Errorf)와 도구
-// 스키마 description 은 두뇌 경계라 중국어 원문을 보존한다(BRIEF 성능 보존 방침).
+// 说明。
+// 说明。
+// 说明。
 const (
 	errCustomToolKeyFormat          = "key 必须以小写字母开头，且只能包含小写字母、数字和下划线"
 	errCustomToolKindInvalid        = "kind 必须为 command、script、http 或 shell"

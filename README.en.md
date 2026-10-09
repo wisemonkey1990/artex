@@ -4,7 +4,7 @@
 
 **An LLM-powered autonomous penetration testing system** (Go backend + Next.js frontend)
 
-[简体中文](README.md) · [한국어](README.ko.md) · English
+[简体中文](README.md) · English
 
 [![license: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
 
@@ -14,7 +14,7 @@
 
 > **Authorized security testing only.** ARTEX can autonomously perform reconnaissance, invoke tools, and validate security findings. Use it only in isolated environments that you own or are explicitly authorized to test in writing. Unauthorized scanning, access, or exploitation may be illegal and cause harm. Read the safety scope below and [LICENSE](LICENSE) before use.
 
-ARTEX coordinates multiple LLM agents to break down goals, run tools, and record results. It presents findings through an asset graph and task activity view. The project includes a Go service, a Next.js web interface, and PostgreSQL storage. This repository defaults to Simplified Chinese and retains Korean as an optional interface language.
+ARTEX coordinates multiple LLM agents to break down goals, run tools, and record results. It presents findings through an asset graph and task activity view. The project includes a Go service, a Next.js web interface, and PostgreSQL storage. This repository uses a Simplified Chinese interface and user-facing agent output.
 
 ## Quick start
 
@@ -42,7 +42,7 @@ CGO_ENABLED=0 go build -tags embedui -o artex ./cmd/artex
 
 ## Localization
 
-- Simplified Chinese is the default interface language. Set `NEXT_PUBLIC_LOCALE=ko` at build time to use Korean.
+- The interface and user-facing agent output use Simplified Chinese.
 - Dates and times use the `zh-CN` locale.
 - Agent-authored natural language shown to users is requested in Simplified Chinese. Commands, code, URLs, request/response bodies, and raw evidence remain unchanged.
 - `README.zh.md` preserves the upstream Chinese documentation; this page describes the localized edition in this repository.
@@ -55,6 +55,5 @@ Run ARTEX only against targets covered by explicit authorization and agreed scop
 
 - [Simplified Chinese project overview](README.md)
 - [Upstream Chinese documentation](README.zh.md)
-- [Korean project overview](README.ko.md)
 - [Contribution guide](CONTRIBUTING.md)
 - [AGPL-3.0 license](LICENSE)

@@ -2,9 +2,9 @@ import type { CompanyScopeKind, CompanyScopeRule } from "@/lib/types";
 
 export const MAX_COMPANY_SCOPE_VALUE_LENGTH = 1024;
 
-// 검증 결과는 지역화 가능한 "오류 코드"로 돌려준다. 이 모듈은 React 밖 순수 함수라
-// 직접 번역할 수 없으므로, 노출 지점(scope-text-editor 는 next-intl 의 t(), mock
-// handler 는 companyScopeErrorText())이 코드를 각 언어 문구로 바꾼다.
+// 说明。
+// 说明。
+// 说明。
 export type CompanyScopeErrorCode =
   | "empty"
   | "tooLong"

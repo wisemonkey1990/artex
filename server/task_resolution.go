@@ -17,9 +17,9 @@ type taskLLMResolution struct {
 	Reason    string `json:"reason,omitempty"`
 }
 
-// 사용자 노출 사유·소스 이름(GET /api/tasks/{id}/llm/resolution 응답). 작업 LLM 설정 체인·
-// system/llm 화면에 그대로 렌더되므로 ko.json 의 taskDetail.llm 네임스페이스 표기(설정·전역·
-// 할당량·설정 체인)에 맞춘다. Source enum 값과 영어 오류 문구는 번역 대상이 아니다.
+// 说明。
+// 说明。
+// 说明。
 const (
 	reasonLLMProfileMissing     = "未找到 LLM 配置"
 	reasonLLMProfileNoAPIKey    = "LLM 配置中未设置 API Key"

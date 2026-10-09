@@ -12,9 +12,9 @@ import (
 
 const maxWorkerMessageBytes = 64 << 10
 
-// Worker 개입(사람이 작성한 메시지를 일시정지된 Worker 의도에 주입) API 의 사용자 노출
-// 에러 응답 문구다. 한국어 UI 에서 토스트로 그대로 노출되므로 한국어로 둔다. Worker 는
-// 엔진 역할 이름이라 로마자를 유지하고(용어집), request_id 는 요청 필드명이라 원문 보존.
+// 说明。
+// 说明。
+// 说明。
 const (
 	errIntentRequestTooLarge   = "请求正文过大"
 	errIntentMessageEmpty      = "消息不能为空"

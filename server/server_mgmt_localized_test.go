@@ -56,7 +56,7 @@ func TestServerMgmtConstantsLocalized(t *testing.T) {
 		"errMgmtTmplSyntax":         errMgmtTmplSyntax,
 		"errMgmtTmplVarPre":         errMgmtTmplVarPre,
 		"errMgmtTmplVarPost":        errMgmtTmplVarPost,
-		// 형식 문자열은 실제 포매팅 결과로 검사한다(한국어 + verb 보존).
+		// 说明。
 		"errMgmtAPIReturned": fmt.Sprintf(errMgmtAPIReturned, 404, "detail"),
 	}
 	for label, msg := range cases {
@@ -71,7 +71,7 @@ func TestServerMgmtAPIReturnedFormat(t *testing.T) {
 	msg := fmt.Sprintf(errMgmtAPIReturned, 404, "boom-body")
 	assertChineseMessage(t, "errMgmtAPIReturned", msg)
 	if !strings.Contains(msg, "404") || !strings.Contains(msg, "boom-body") {
-		t.Fatalf("형식 문자열이 상태 코드와 본문을 보존해야 합니다: %q", msg)
+		t.Fatalf("测试文本 测试文本 测试文本 测试文本 测试文本 测试文本 测试文本: %q", msg)
 	}
 }
 
@@ -83,10 +83,10 @@ func TestServerMgmtSkillExistsSentinel(t *testing.T) {
 	msg := errMgmtSkillExistsPre + "my-skill" + errMgmtSkillExistsPost
 	assertChineseMessage(t, "skillExists", msg)
 	if !strings.Contains(msg, "已存在") {
-		t.Fatalf("프론트 미러 마커 '已存在' 가 없습니다: %q", msg)
+		t.Fatalf("测试文本 测试文本 测试文本 '已存在' 测试文本 测试文本: %q", msg)
 	}
 	if !strings.Contains(msg, "my-skill") {
-		t.Fatalf("스킬 이름이 메시지에 포함돼야 합니다: %q", msg)
+		t.Fatalf("测试文本 测试文本 测试文本 测试文本 测试文本: %q", msg)
 	}
 }
 
@@ -97,10 +97,10 @@ func TestServerMgmtPGGate503Localized(t *testing.T) {
 	s := &Server{m: &Manager{}} // pg == nil
 	rec := httptest.NewRecorder()
 	if got := s.pg(rec); got != nil {
-		t.Fatal("pg() 는 DB 핸들이 없으면 nil 을 반환해야 합니다")
+		t.Fatal("pg() 测试文本 DB 测试文本 测试文本 nil 测试文本 测试文本 测试文本")
 	}
 	if rec.Code != 503 {
-		t.Fatalf("상태 코드 503 을 기대했으나 %d", rec.Code)
+		t.Fatalf("测试文本 测试文本 503 测试文本 测试文本 %d", rec.Code)
 	}
 	assertChineseMessage(t, "pg.503", decodeErrorField(t, rec.Body.Bytes()))
 }
@@ -114,12 +114,12 @@ func TestServerMgmtDeleteTaskBadIDLocalized(t *testing.T) {
 	rec := httptest.NewRecorder()
 	s.pgDeleteTask(rec, req)
 	if rec.Code != http.StatusBadRequest {
-		t.Fatalf("상태 코드 400 을 기대했으나 %d (본문 %s)", rec.Code, rec.Body.Bytes())
+		t.Fatalf("测试文本 测试文本 400 测试文本 测试文本 %d (测试文本 %s)", rec.Code, rec.Body.Bytes())
 	}
 	got := decodeErrorField(t, rec.Body.Bytes())
 	assertChineseMessage(t, "deleteTask.badID", got)
 	if got != errMgmtTaskIDInvalid {
-		t.Fatalf("errMgmtTaskIDInvalid 와 일치해야 합니다: %q", got)
+		t.Fatalf("errMgmtTaskIDInvalid 测试文本 测试文本 测试文本: %q", got)
 	}
 }
 
@@ -131,12 +131,12 @@ func TestServerMgmtListModelsNoKeyLocalized(t *testing.T) {
 	rec := httptest.NewRecorder()
 	s.pgListModels(rec, req)
 	if rec.Code != 200 {
-		t.Fatalf("상태 코드 200 을 기대했으나 %d", rec.Code)
+		t.Fatalf("测试文本 测试文本 200 测试文本 测试文本 %d", rec.Code)
 	}
 	got := decodeErrorField(t, rec.Body.Bytes())
 	assertChineseMessage(t, "listModels.noKey", got)
 	if got != errMgmtNoAPIKey {
-		t.Fatalf("errMgmtNoAPIKey 와 일치해야 합니다: %q", got)
+		t.Fatalf("errMgmtNoAPIKey 测试文本 测试文本 测试文本: %q", got)
 	}
 }
 
@@ -145,17 +145,17 @@ func TestServerMgmtListModelsNoKeyLocalized(t *testing.T) {
 // disallowed-variable branches must return Korean.
 func TestServerMgmtValidateTemplateLocalized(t *testing.T) {
 	if msg := validateTemplate("{{", nil); msg == "" {
-		t.Fatal("깨진 템플릿은 오류 문구를 반환해야 합니다")
+		t.Fatal("测试文本 测试文本 测试文本 测试文本 测试文本 测试文本")
 	} else {
 		assertChineseMessage(t, "validateTemplate.syntax", msg)
 	}
 	msg := validateTemplate("{{.Bogus}}", nil)
 	if msg == "" {
-		t.Fatal("允许 목록에 없는 변수는 오류 문구를 반환해야 합니다")
+		t.Fatal("允许 测试文本 测试文本 测试文本 测试文本 测试文本 测试文本 测试文本")
 	}
 	assertChineseMessage(t, "validateTemplate.var", msg)
 	if !strings.Contains(msg, "Bogus") {
-		t.Fatalf("변수 이름이 메시지에 포함돼야 합니다: %q", msg)
+		t.Fatalf("测试文本 测试文本 测试文本 测试文本 测试文本: %q", msg)
 	}
 }
 
@@ -163,7 +163,7 @@ func TestServerMgmtValidateTemplateLocalized(t *testing.T) {
 // text (rendered in the prompt editor's variable palette) as Korean.
 func TestServerMgmtGlobalPromptVarsLocalized(t *testing.T) {
 	if len(globalPromptVars) == 0 {
-		t.Fatal("globalPromptVars 가 비어 있습니다")
+		t.Fatal("globalPromptVars 测试文本 测试文本 测试文本")
 	}
 	for _, v := range globalPromptVars {
 		assertChineseMessage(t, "globalPromptVar."+v.Name, v.Description)

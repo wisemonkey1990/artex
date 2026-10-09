@@ -13,7 +13,7 @@ import (
 	"github.com/Autumn-27/norma/llm"
 )
 
-// User-facing side-question context errors are Korean (BRIEF 현지화 방침). The
+// 说明。
 // summaryInstruction prompt and the "[此前摘要]"/"[新材料片段]" framing below are
 // agent-brain text sent to the model, so they stay in their benchmarked Chinese.
 var (

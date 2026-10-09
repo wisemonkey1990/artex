@@ -64,19 +64,19 @@ func validSkillName(name string) bool {
 // lowercase letters / digits / underscores.
 var reAgentKey = regexp.MustCompile(`^[a-z][a-z0-9_]*$`)
 
-// F3b: 사용자(관리 콘솔 UI)에게 writeErr/writeJSON 으로 노출되는 응답 문구만 한국어로 모은다.
-// 두뇌 段[A]·에이전트 도구 설명·로그(log.Printf)·코드 주석은 BRIEF 방침대로 원문을 보존하고,
-// 식별자·필드명(key·llm_profile_id·file·SKILL.md·name)·enum·%s/%d·err.Error() 도 원문 그대로 둔다.
+// 说明。
+// 说明。
+// 说明。
 const (
-	// 모든 관리 핸들러가 거치는 공유 DB 게이트(pg).
+	// 说明。
 	errMgmtPGUnavailable = "管理控制台尚未连接数据源（PostgreSQL）"
 
-	// 작업 삭제
+	// 说明。
 	errMgmtTaskIDInvalid = "任务 id 无效"
 	errMgmtTaskDeleting  = "正在删除任务"
 	errMgmtTaskHasAgents = "仍有智能体正在运行，已取消删除任务"
 
-	// 에이전트 CRUD
+	// 说明。
 	errMgmtAgentKeyFormat     = "key 必须以小写字母开头，且只能包含小写字母、数字和下划线"
 	errMgmtNameEmpty          = "名称不能为空"
 	errMgmtAgentKeyExists     = "key 已存在"
@@ -86,47 +86,47 @@ const (
 	errMgmtLLMProfileInvalid  = "指定的 LLM 配置不存在或无效"
 	errMgmtNoBuiltinPrompt    = "此智能体没有内置默认提示词，无法恢复"
 
-	// 도구 (뒤에 key 를 이어 붙임)
+	// 说明。
 	errMgmtToolNotFound   = "未找到工具："
 	errMgmtNotBuiltinTool = "此工具不是内置工具或不存在："
 
 	// MCP
 	errMgmtMCPNotFound      = "未找到 MCP"
-	errMgmtToolDiscoverFail = "发现工具失败：" // 뒤에 err.Error()
+	errMgmtToolDiscoverFail = "发现工具失败："
 
-	// 스킬 업로드
+	// 说明。
 	errMgmtSkillNameInvalid = "技能名称无效"
 	errMgmtSkillNoFile      = "未找到上传文件（表单字段 file）或文件超过大小限制"
 	errMgmtSkillNoMDInZip   = "压缩包中未找到 SKILL.md"
-	errMgmtSkillReadMDFail  = "无法读取 SKILL.md：" // 뒤에 err.Error()
+	errMgmtSkillReadMDFail  = "无法读取 SKILL.md："
 	errMgmtSkillNamePre     = "技能名称无效（取自 SKILL.md 的 name 字段）："
 	errMgmtSkillNamePost    = "（最多 64 个字符，必须以字母开头；可使用小写字母、数字、连字符及其他非 ASCII 字母；不可包含空格、点或路径分隔符）"
-	// "이미 존재" 는 web system/skills/page.tsx 가 includes("이미 존재") 로 덮어쓰기 흐름을
-	// 띄우는 교차 스택 센티넬이다. 이 접두어를 바꾸면 프론트 미러도 함께 고쳐야 한다.
+	// 说明。
+	// 说明。
 	errMgmtSkillExistsPre    = "技能已存在："
 	errMgmtSkillExistsPost   = "（如需覆盖，请确认后重试）"
-	errMgmtSkillZipBadPath   = "压缩包包含无效路径 " // 뒤에 항목 이름 + ": " + 사유
+	errMgmtSkillZipBadPath   = "压缩包包含无效路径 "
 	errMgmtSkillZipTooMany   = "压缩包中的文件过多"
-	errMgmtSkillFileTooLarge = "文件过大：" // 뒤에 경로
+	errMgmtSkillFileTooLarge = "文件过大："
 	errMgmtSkillZipTooLarge  = "解压后的文件过大"
 	errMgmtSkillNoMDAfter    = "解压后未找到 SKILL.md"
-	errMgmtSkillInstallFail  = "安装失败：" // 뒤에 err.Error()
+	errMgmtSkillInstallFail  = "安装失败："
 
-	// LLM 설정 삭제
+	// 说明。
 	errMgmtLLMActiveDelete = "无法删除当前启用的 LLM 配置，请先启用其他配置"
 	errMgmtLLMRefChanged   = "LLM 配置正在被任务或对话修改，请重试"
 	errMgmtLLMRefTimeout   = "等待 LLM 配置引用释放超时，请重试"
 
-	// LLM 연결 테스트·모델 목록 조회 (pgListModels)
+	// 说明。
 	errMgmtNoAPIKey      = "未提供 API Key"
-	errMgmtBuildReqFail  = "无法构造请求："       // 뒤에 err.Error()
-	errMgmtReqFail       = "请求失败："          // 뒤에 err.Error()
+	errMgmtBuildReqFail  = "无法构造请求："
+	errMgmtReqFail       = "请求失败："
 	errMgmtAPIReturned   = "API 返回 %d：%s" // fmt.Sprintf
-	errMgmtParseRespFail = "无法解析响应："      // 뒤에 err.Error()
+	errMgmtParseRespFail = "无法解析响应："
 	errMgmtNoModelList   = "无法获取模型列表"
 
-	// 프롬프트 템플릿 편집기 (validateTemplate)
-	errMgmtTmplSyntax  = "模板语法错误：" // 뒤에 err.Error()
+	// 说明。
+	errMgmtTmplSyntax  = "模板语法错误："
 	errMgmtTmplVarPre  = "变量 {{."
 	errMgmtTmplVarPost = "}} 不在此智能体的允许列表中"
 )

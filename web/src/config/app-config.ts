@@ -6,10 +6,6 @@ const currentYear = new Date().getFullYear();
 
 // 浏览器标题与搜索引擎摘要会写入所有页面的静态 metadata，并根据当前语言选择。
 const META_BY_LOCALE = {
-  ko: {
-    title: "ARTEX：自主渗透测试控制台",
-    description: "基于 LLM 的自主渗透测试系统控制台",
-  },
   zh: {
     title: "ARTEX — 自主渗透测试控制台",
     description: "LLM 驱动的自主渗透测试系统控制台",

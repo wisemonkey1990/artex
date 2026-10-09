@@ -101,7 +101,7 @@ func TestReportMarkdownEmptyUsesChinese(t *testing.T) {
 	}
 }
 
-// TestFindingsMarkdownUsesSimplifiedChinese 는 漏洞摘要和详情 Markdown 导出骨架及严重程度标签使用中文且不含韩文。
+// 说明。
 func TestFindingsMarkdownUsesSimplifiedChinese(t *testing.T) {
 	f := sampleDBFinding()
 	out := FindingsMarkdown([]*db.DBFinding{f}, time.Date(2026, 10, 4, 2, 30, 0, 0, time.UTC))

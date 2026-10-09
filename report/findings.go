@@ -13,28 +13,28 @@ import (
 	"github.com/Autumn-27/artex/db"
 )
 
-// 취약점 페이지의 「내보내기」용 렌더링: 여러 건의 findings 테이블 행을 요약 Markdown,
-// 개별 Markdown, 또는 CSV 로 렌더링한다. JSON 은 server 계층이 DTO 로 직접 직렬화하므로
-// 여기서는 다루지 않는다.
+// 说明。
+// 说明。
+// 说明。
 
-// sortFindingsForExport 는 심각도 내림차순, 그다음 시각 역순으로 정렬한다. 요약 보고서의 그룹화와 동일하다.
+// 说明。
 func sortFindingsForExport(fs []*db.DBFinding) {
 	sort.SliceStable(fs, func(i, j int) bool {
 		ri, rj := sevRank[fs[i].Severity], sevRank[fs[j].Severity]
 		if ri != rj {
-			return ri < rj // sevRank 는 값이 작을수록 심각하다
+			return ri < rj // sevRank 值越小，严重程度越高。
 		}
 		return fs[i].CreatedAt.After(fs[j].CreatedAt)
 	})
 }
 
-// findingTitle 은 취약점의 사람이 읽을 수 있는 제목을 고른다: 이름 → 유형 → 「未分类」.
+// 说明。
 func findingTitle(f *db.DBFinding) string {
 	return nz(f.Name, nz(f.VulnClass, "未分类"))
 }
 
-// FindingsMarkdown 은 여러 건의 findings 를 하나의 요약 보고서로 통합한다(요약 + 심각도별
-// 그룹화, 각 건은 유형/상태/소속 작업/증거/상세 보고서를 포함).
+// 说明。
+// 说明。
 func FindingsMarkdown(fs []*db.DBFinding, generatedAt time.Time) string {
 	items := append([]*db.DBFinding(nil), fs...)
 	sortFindingsForExport(items)
@@ -44,7 +44,7 @@ func FindingsMarkdown(fs []*db.DBFinding, generatedAt time.Time) string {
 	fmt.Fprintf(&b, "- **生成时间**: %s\n", generatedAt.Format("2006-01-02 15:04:05"))
 	fmt.Fprintf(&b, "- **漏洞总数**：%d 项\n\n", len(items))
 
-	// 요약: 심각도별 집계.
+	// 说明。
 	counts := map[string]int{}
 	for _, f := range items {
 		counts[f.Severity]++
@@ -91,7 +91,7 @@ func FindingsMarkdown(fs []*db.DBFinding, generatedAt time.Time) string {
 	return b.String()
 }
 
-// SingleFindingMarkdown 은 개별 취약점을 독립된 Markdown 한 건으로 렌더링한다(「취약점 하나당 파일 하나」 묶음에 사용).
+// 说明。
 func SingleFindingMarkdown(f *db.DBFinding, generatedAt time.Time) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "# [%s] %s\n\n", severityLabel(nz(f.Severity, "info")), findingTitle(f))
@@ -122,8 +122,8 @@ func SingleFindingMarkdown(f *db.DBFinding, generatedAt time.Time) string {
 
 var unsafeFilenameChars = regexp.MustCompile(`[^\p{Han}\p{L}\p{N}._-]+`)
 
-// FindingFilename 은 「취약점 하나당 파일 하나」를 위해 안전한 .md 파일 이름을 생성한다.
-// 예: `critical_SQL주입_#123.md`. 경로 구분자와 제어 문자를 제거하여 zip 내 비정상 경로를 막는다.
+// 说明。
+// 说明。
 func FindingFilename(f *db.DBFinding) string {
 	sev := nz(f.Severity, "info")
 	title := findingTitle(f)
@@ -133,7 +133,7 @@ func FindingFilename(f *db.DBFinding) string {
 	if name == "" {
 		name = fmt.Sprintf("finding_%d", f.ID)
 	}
-	// 방어적 처리: 경로를 한 번 더 벗겨 zip slip 을 차단한다.
+	// 说明。
 	name = path.Base(name)
 	if len(name) > 120 {
 		name = name[:120]
@@ -141,9 +141,9 @@ func FindingFilename(f *db.DBFinding) string {
 	return name + ".md"
 }
 
-// FindingsCSV 는 여러 건의 findings 를 CSV 로 렌더링한다(UTF-8 BOM 포함, Excel 이 한글을
-// 올바르게 인식하도록). 긴 report/evidence 전문은 담지 않고 요약 성격의 필드만 넣는다.
-// 전문이 필요하면 Markdown/JSON 으로 내보낸다.
+// 说明。
+// 说明。
+// 说明。
 func FindingsCSV(fs []*db.DBFinding) []byte {
 	items := append([]*db.DBFinding(nil), fs...)
 	sortFindingsForExport(items)

@@ -18,13 +18,13 @@ import (
 	actool "github.com/Autumn-27/norma/tool"
 )
 
-// 사용자 노출 HTTP 에러 응답 문구. 아래 네 문구는 startFindingRetest HTTP 핸들러에서만
-// 반환되고 에이전트 도구 경로(findingRetestTools 의 roTool/wrTool 설명·파라미터 설명·
-// actool.Errorf)에는 닿지 않으므로 한국어로 번역한다. 반대로 도구 설명
-// (get_finding_retest_context·record_finding_retest_result)·파라미터 설명·
-// actool.Errorf(153행 회차 미연결 안내)와 seedFindingRetester 의 DB 시드 에이전트
-// 이름(漏洞复测)·프로필·note(内置默认)는 에이전트가 읽는 두뇌 입력이거나 시드라
-// 원문을 보존한다(각 지점 주석 참조, F16 두뇌 경계 계열).
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errFindingRetestNotesTooLong    = "复测补充说明最多可包含 4000 个字符"
 	errFindingRetestAgentMissing    = "漏洞复测智能体不存在或已停用，请在智能体管理中配置 retester"

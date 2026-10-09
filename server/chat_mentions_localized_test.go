@@ -9,7 +9,7 @@ import (
 )
 
 // TestChatMentionErrorsLocalized guards F3b chat_mentions.go: every user-facing
-// @멘션(인용) error response must be Korean (Hangul present, no Chinese Han). The
+// 说明。
 // wire token labels (chatMentionPattern·chatMentionKinds), the agent-input
 // snapshot header, and the truncation markers fed into that snapshot stay in the
 // original language by design and are intentionally not checked here.
@@ -27,7 +27,7 @@ func TestChatMentionErrorsLocalized(t *testing.T) {
 
 	// parseChatMentions — a non-positive id inside a valid wire token.
 	if _, err := parseChatMentions("@[漏洞#0]"); err == nil {
-		t.Fatal("잘못된 인용 ID 가 통과해서는 안 됩니다")
+		t.Fatal("测试文本 测试文本 ID 测试文本 测试文本 测试文本 测试文本")
 	} else {
 		assertChineseMessage(t, "parse.badID", err.Error())
 	}
@@ -38,14 +38,14 @@ func TestChatMentionErrorsLocalized(t *testing.T) {
 		fmt.Fprintf(&b, "@[漏洞#%d] ", i)
 	}
 	if _, err := parseChatMentions(b.String()); err == nil {
-		t.Fatal("인용 상한 초과가 통과해서는 안 됩니다")
+		t.Fatal("测试文本 测试文本 测试文本 测试文本 测试文本 测试文本")
 	} else {
 		assertChineseMessage(t, "parse.tooMany", err.Error())
 	}
 
 	// composeChatMentionMessage — a mention is present but the database is nil.
 	if _, err := composeChatMentionMessage(nil, "@[漏洞#1]"); err == nil {
-		t.Fatal("DB 없이 인용 해석이 통과해서는 안 됩니다")
+		t.Fatal("DB 测试文本 测试文本 测试文本 测试文本 测试文本 测试文本")
 	} else {
 		assertChineseMessage(t, "compose.dataUnavail", err.Error())
 	}
@@ -56,7 +56,7 @@ func TestChatMentionErrorsLocalized(t *testing.T) {
 		w := httptest.NewRecorder()
 		(&Server{}).searchChatMentions(w, httptest.NewRequest("GET", "/api/chat/mentions?"+q, nil))
 		if w.Code != 400 {
-			t.Fatalf("검증 실패(400)를 기대했으나 %d 가 반환되었습니다 (%s)", w.Code, q)
+			t.Fatalf("测试文本 测试文本(400)测试文本 测试文本 %d 测试文本 测试文本 (%s)", w.Code, q)
 		}
 		assertChineseMessage(t, "search."+q, decodeErrorField(t, w.Body.Bytes()))
 	}
@@ -65,7 +65,7 @@ func TestChatMentionErrorsLocalized(t *testing.T) {
 	// template resolves to a fully Korean message for a known kind.
 	for _, kind := range []string{"finding", "asset", "company", "endpoint", "ip", "app", "root_domain", "subdomain", "service"} {
 		if chatMentionKindLabel[kind] == "" {
-			t.Fatalf("종류 라벨이 누락되었습니다: %s", kind)
+			t.Fatalf("测试文本 测试文本 测试文本: %s", kind)
 		}
 	}
 	assertChineseMessage(t, "notFound", fmt.Sprintf(errChatMentionNotFoundFmt, chatMentionKindLabel["finding"], 7))

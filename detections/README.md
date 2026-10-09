@@ -1,14 +1,12 @@
 # ARTEX detection rules
 
-English · [한국어](README.ko.md)
+简体中文 · English
 
-> 한국어: 이 디렉터리는 [방어·탐지 가이드(docs/defense-ko.md)](../docs/defense-ko.md)의 4절 "탐지 규칙"을
-> 실제로 배포 가능한 [Sigma](https://sigmahq.io) 규칙으로 옮긴 것입니다. 모든 규칙은 자신이 소유하거나 서면
-> 허가를 받은 시스템을 지키는 **방어·탐지 목적에만** 사용하십시오. 한국어 전체 문서는
-> **[detections/README.ko.md](README.ko.md)** 를 보십시오.
+> 本目录收录可部署的 ARTEX 防御与检测规则。请仅将规则用于保护自有或获得书面授权的系统。
+> 规则说明和使用方法见本目录其余章节。
 
 Deployable [Sigma](https://sigmahq.io) rules that formalize the pseudo-rules in the defense guide
-([Korean](../docs/defense-ko.md) · [English](../docs/defense-en.md), section 4) into a vendor-neutral
+([Korean](../docs/defense-en.md) · [English](../docs/defense-en.md), section 4) into a vendor-neutral
 format you can convert to your own SIEM or EDR query language. Every indicator here is grounded in a
 string or behaviour verified in this repository's source, not inferred.
 

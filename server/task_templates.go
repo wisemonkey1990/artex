@@ -14,8 +14,8 @@ import (
 
 const maxTaskTemplateRequestBytes = 512 << 10
 
-// 작업 템플릿 API 가 사용자에게 돌려주는 응답 문구. 식별자, JSON 필드명, 요청 본문
-// 키는 원문을 유지하고 사람이 읽는 메시지만 한국어로 둔다.
+// 说明。
+// 说明。
 const (
 	errTaskTemplateRequestTooLarge = "请求正文过大"
 	errTaskTemplateNameConflict    = "模板名称已存在"

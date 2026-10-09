@@ -82,9 +82,9 @@ func TestExhaustedErrorLocalized(t *testing.T) {
 func assertKoreanErrText(t *testing.T, label, s string) {
 	t.Helper()
 	if !hasHangul(s) {
-		t.Errorf("%s: 한글이 없습니다: %q", label, s)
+		t.Errorf("%s: 测试文本 测试文本: %q", label, s)
 	}
 	if hasHanzi(s) {
-		t.Errorf("%s: 중국어 한자가 남아 있습니다: %q", label, s)
+		t.Errorf("%s: 测试文本 测试文本 测试文本 测试文本: %q", label, s)
 	}
 }

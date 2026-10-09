@@ -14,8 +14,8 @@ import (
 
 const maxFindingFollowUpRunes = 4000
 
-// auditFindingFollowUpSummary 는 사용자가 취약점을 심화 익스플로잇하려고 후속 의도를
-// 제출할 때 활동 타임라인에 남는 요약 문구다("{요약} #{의도ID}" 형태로 표시된다).
+// 说明。
+// 说明。
 const auditFindingFollowUpSummary = "用户提交的漏洞深入利用意图"
 
 func findingPaginationParam(raw string, fallback, upperBound int) int {

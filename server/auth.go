@@ -22,10 +22,10 @@ const (
 	keyChars       = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
 
-// 인증 엔드포인트가 HTTP 응답으로 돌려주는 사용자 노출 문구다. 한국어 UI 에서 로그인·
-// 비밀번호 설정이 실패하면 이 문구가 그대로 토스트로 뜨므로 한국어로 둔다. 자격 증명
-// 오류 문구는 로그인 화면(web messages auth.login.errorCredential)과 표기를 맞췄다.
-// token 은 기술 용어라 원문 그대로 둔다(로그·주석은 BRIEF 방침상 최하위라 손대지 않음).
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	authErrUnauthorized         = "需要身份验证"
 	authErrTokenInvalid         = "token 无效或已过期"

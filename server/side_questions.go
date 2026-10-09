@@ -23,9 +23,9 @@ import (
 	"github.com/Autumn-27/norma/transcript"
 )
 
-// User-facing side-question (곁질문) messages surfaced through the HTTP API and
-// the exchange status, localized to Korean (BRIEF 현지화 방침). "Worker" and
-// "메인 에이전트"/"메인 대화" match the UI terms; "[btw]" log lines stay as-is.
+// 说明。
+// 说明。
+// 说明。
 const (
 	sideErrCtxNotSaved        = "追问上下文尚未保存，请重试。"
 	sideErrModelConfigChanged = "模型配置已删除或更改。请先运行主智能体以刷新上下文。"

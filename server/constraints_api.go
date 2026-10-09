@@ -20,10 +20,10 @@ const (
 	settingConstraintsInjectWorker  = "constraints_inject_worker"
 )
 
-// 约束 CRUD 핸들러의 사용자 노출 에러 응답(한국어). writeErr 로 그대로 UI 토스트에 노출된다.
-// 用語: 约束→제약(ko.json 의 약속/제약 표기와 정합), 任务→작업. 추가/수정/삭제 문구는
-// goals_api.go 의 errGoalTaskDeleting* 와 같은 문형이고, kind 검증은 intercept.go 의
-// "값은 … 중 하나여야 합니다" 패턴을 따른다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errConstraintTaskDeletingAdd    = "正在删除任务，无法添加约束"
 	errConstraintTaskDeletingEdit   = "正在删除任务，无法修改约束"

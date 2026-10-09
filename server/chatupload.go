@@ -15,11 +15,11 @@ import (
 // maxChatUpload caps a single chat-attachment upload request (memory + spill).
 const maxChatUpload = 128 << 20 // 128 MiB
 
-// chatUpload 의 사용자 노출 에러 응답(한국어). writeErr 로 그대로 UI 에 노출된다. 用語:
-// 附件→첨부 파일, scope/id/file 은 요청 필드명이라 원문 보존. scope 검증은 intercept.go 의
-// "값은 … 중 하나여야 합니다" 패턴, 作业 삭제 문구는 goals_api.go 와 같은 문형, "잘못된 id"
-// 는 workspace.go errWsIllegalPath("잘못된 경로입니다")와 같은 꼴이다. ...失败 세 종류는
-// task_archives.go:229 선례처럼 접두 상수 + err.Error() 로 이어 붙인다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errChatUploadScopeInvalid = "scope 必须为 task、session 或 staging"
 	errChatUploadBadID        = "id 无效"
@@ -148,11 +148,11 @@ func composeAgentMessage(msg string, atts []chatAttachment, baseDir string) stri
 	}
 	var b strings.Builder
 	b.WriteString(msg)
-	// [F10 경계 판정 · 두뇌 입력 보존] 이 첨부 매니페스트 헤더(`【用户上传的附件】…Read/Bash…`)는
-	// 번역하지 않는다. composeAgentMessage 의 반환값은 runConversation/ma.Chat 으로 에이전트에
-	// 보내지는 메시지라, 이 문구는 "업로드된 파일을 Read/Bash 로 열라"고 모델에 지시하는 에이전트
-	// 입력(두뇌)이다(BRIEF 경계 #1). 전사는 userActivityWithAttachments 가 첨부 JSON 으로 따로
-	// 렌더하므로 이 헤더 문자열 자체는 표시 경로에 노출되지 않는다(F16 동형 두뇌 전용).
+	// 说明。
+	// 说明。
+	// 说明。
+	// 说明。
+	// 说明。
 	b.WriteString("\n\n【用户上传的附件】(绝对路径，需要时用 Read/Bash 查看)：")
 	for _, a := range atts {
 		fmt.Fprintf(&b, "\n- %s（%s）", filepath.Join(baseDir, a.Path), humanBytes(a.Size))

@@ -96,25 +96,25 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
       .mcpServers()
       .then(setMcp)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .skills()
       .then(setSkills)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .tools()
       .then(setTools)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .settings()
       .then(setSettings)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
   }, []);
   // global gates: traffic tools need 流量捕获, web search needs the master switch.
@@ -293,7 +293,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
         .tools()
         .then(setTools)
         .catch(() => {
-          /* 재조회 실패는 무시한다 */
+          /* 说明。 */
         });
     }
   }

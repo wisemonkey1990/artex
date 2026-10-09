@@ -12,12 +12,12 @@ import (
 
 const FindingRetestAgentKey = "retester"
 
-// 재검증(finding_retest) 종결 사유. finding_retests.error 컬럼에 저장돼 재검증 패널
-// (finding-retest-panel) 의 item.error 로 노출된다(사용자 노출, server/conversations.go 의
-// 형제 사유 convRetest* 와 같은 컬럼·패널이라 함께 한국어로 둔다 — F9). retestNoConclusionReason
-// 은 에이전트가 결론 없이 완료했을 때 caller 가 넘긴 사유를 덮어쓰는 폴백이고,
-// retestServiceRestartReason 은 재시작 복구(RecoverFindingRetests)가 미완 재검증을 봉인할 때 쓴다.
-// 작은따옴표 없는 상수라 SQL 리터럴 자리에 그대로 이어 붙여도 안전하다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	retestNoConclusionReason   = "智能体未保存复测结论，请检查对话后重新复测"
 	retestServiceRestartReason = "服务已重启，复测已中断，请重新启动"
