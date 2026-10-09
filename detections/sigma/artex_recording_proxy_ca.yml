@@ -15,7 +15,6 @@ description: |
     endpoint and server port (see the indicators list), not a standalone alert.
 references:
     - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
-    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
     - https://github.com/wisemonkey1990/artex
 author: artex-ko defense guide
 date: 2026-10-07

@@ -9,7 +9,6 @@ description: |
     forensic indicator on a (possibly compromised relay) host, not a target-side signal.
 references:
     - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
-    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
     - https://github.com/wisemonkey1990/artex
 author: artex-ko defense guide
 date: 2026-10-05

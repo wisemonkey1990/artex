@@ -13,7 +13,6 @@ description: |
     defense guide section 4 and tune the distinct-host threshold and window to your environment.
 references:
     - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
-    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
     - https://github.com/wisemonkey1990/artex
 author: artex-ko defense guide
 date: 2026-10-05

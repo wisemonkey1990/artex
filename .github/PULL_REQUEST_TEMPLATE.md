@@ -40,5 +40,5 @@ Before submitting, please read the contribution guidelines in [CONTRIBUTING.md](
 
 ## Authorized use
 
-- [ ] This change follows the [authorized-use policy](../README.md#authorized-use-and-legal-notice). Validation used owned or authorized targets, or a local isolated environment.
+- [ ] This change follows the [authorized-use policy](../README.md#安全使用范围). Validation used owned or authorized targets, or a local isolated environment.
 - [ ] Test and scan artifacts are not included in the commit.
