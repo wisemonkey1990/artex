@@ -18,17 +18,17 @@ type companyScopeInputs []db.ScopeInput
 
 const maxCompanyMutationBodyBytes = 2 << 20
 
-// 회사·자산 API 가 사용자에게 돌려주는 오류 응답 문구. 용어집 기준으로 company 는
-// "회사"로 둔다. 사람이 읽는 메시지만 한국어로 두고 식별자·필드명은 원문 보존.
+// 说明。
+// 说明。
 const (
 	errCompanyRequestTooLarge = "请求正文过大"
 	errCompanyNameConflict    = "企业名称已存在"
 )
 
-// 자산 출처(provenance) summary 라벨. task_asset_links.source_summary 에 저장돼 작업
-// 상세 화면(sessions·assets 탭)에 그대로 표시되는 사용자 노출 문구다. 한곳에 모아
-// 두어 같은 패널에서 출처 라벨이 언어별로 어긋나지 않게 한다(db.manualTaskScopeSummary
-// 도 같은 성격의 수동 추가 라벨). 비교·분기에 쓰이지 않는 표시 전용 값이다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	taskAssetSourceAPISummary  = "通过资产 API 注册"
 	taskAssetSourceTaskSummary = "从任务描述或目标初始化"

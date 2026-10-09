@@ -32,10 +32,10 @@ func hasHan(s string) bool {
 func assertKorean(t *testing.T, label, s string) {
 	t.Helper()
 	if !hasHangul(s) {
-		t.Errorf("%s: 한글이 없습니다: %q", label, s)
+		t.Errorf("%s: 测试文本 测试文本: %q", label, s)
 	}
 	if hasHan(s) {
-		t.Errorf("%s: 한자가 남아 있습니다: %q", label, s)
+		t.Errorf("%s: 测试文本 测试文本 测试文本: %q", label, s)
 	}
 }
 
@@ -87,14 +87,14 @@ func TestDefaultMessageLocalized(t *testing.T) {
 
 // TestToolApprovalSummaryLocalized checks the activity summary is Korean and stays
 // parseable by transcript.tsx, which extracts the pending id via /\(#(\d+)\)/ and
-// the tool name via /도구\s+(\S+)\s+승인/.
+// 说明。
 func TestToolApprovalSummaryLocalized(t *testing.T) {
 	s := fmt.Sprintf(msgToolApprovalRequestFmt, "Bash", 42)
 	assertKorean(t, "msgToolApprovalRequestFmt", s)
 	if !strings.Contains(s, "(#42)") {
 		t.Errorf("summary lost the (#N) marker (transcript.tsx pending_id regex): %q", s)
 	}
-	if !strings.Contains(s, "도구 Bash 승인") {
-		t.Errorf("summary lost the '도구 X 승인' shape (transcript.tsx toolName regex): %q", s)
+	if !strings.Contains(s, "测试文本 Bash 测试文本") {
+		t.Errorf("summary lost the '测试文本 X 测试文本' shape (transcript.tsx toolName regex): %q", s)
 	}
 }

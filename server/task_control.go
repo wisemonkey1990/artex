@@ -14,10 +14,10 @@ import (
 
 const maxBatchControlIDs = 100
 
-// 사용자에게 노출되는 작업·의도 제어 오류 문구(한국어화, F3b). 식별자·enum(paused 등)·
-// %w 래핑은 원문 그대로 둔다. applyTaskControlWithCause 의 문구는 단건(controlTask)·
-// 배치(controlTasksBatch) 제어 응답이 주 용도이며, 오케스트레이터 pause 도구
-// (orchestration.go)가 err.Error() 를 재참조할 때도 같은 문구가 쓰인다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errTaskCtrlDeleting      = "正在删除任务，无法进行控制"
 	errTaskCtrlTerminalPause = "无法暂停已结束的任务"
@@ -167,8 +167,8 @@ func (s *Server) applyTaskControlWithCause(t *Task, action string, pauseCause er
 	return out, nil
 }
 
-// intentSummaryOf 는 의도 payload 에서 summary 를 꺼낸다. 하드 삭제로 의도 노드가
-// 사라지기 전에 삭제 알림이 그 값을 보관해 둘 수 있게 한다.
+// 说明。
+// 说明。
 func intentSummaryOf(n *db.Node) string {
 	if n == nil {
 		return ""
@@ -220,12 +220,12 @@ func (s *Server) applyIntentControl(ctx context.Context, t *Task, iid int64, act
 		t.Notify()
 		out.State = "open"
 	case "cancel":
-		// 삭제는 두 가지 모드를 지원한다:
-		//   soft(기본값, 소프트 삭제): 의도를 state='deleted' 로 멈추고 삭제 사유를 delete_reason
-		//     필드에 기록하며, 의도 노드와 모든 산출물·혈통(lineage)을 보존하고 그래프에 fact 를 따로 달지 않는다.
-		//   hard(하드 삭제): 해당 의도와 "그 의도만이 지탱하는" 전용 자손 노드를 물리적으로 삭제하며(잎까지
-		//     연쇄), 고아 데이터가 남지 않게 한다. 공유 노드·goal·작업 루트 사실은 보존한다.
-		// 두 모드 모두 cancelled 로 planner 에게 알려(의도 내용 + 삭제 사유), 그에 따라 다시 계획하게 한다.
+		// 说明。
+		// 说明。
+		// 说明。
+		// 说明。
+		// 说明。
+		// 说明。
 		if node.State != "running" && node.State != "paused" && node.State != "open" {
 			return out, fmt.Errorf(errIntentCtrlOnlyDeletable)
 		}
@@ -247,7 +247,7 @@ func (s *Server) applyIntentControl(ctx context.Context, t *Task, iid int64, act
 			s.cancelWorkerSide(t.ID, t.ExpID, iid)
 			t.NotifyCancelled(iid, summary, reason)
 			out.Deleted = &cleanup
-			out.State = "" // 노드가 삭제됨. 프런트엔드는 Deleted 를 보고 목록에서 제거한다.
+			out.State = ""
 		} else {
 			if _, err := t.Store.SoftDeleteIntent(iid, reason); err != nil {
 				return out, err

@@ -12,11 +12,11 @@ import (
 	"github.com/Autumn-27/artex/db"
 )
 
-// admitPausedTask 재개 경로(requirePaused)의 사전 조건 검증 오류 문구다. 두 문구는
-// 단건(server.go:1194 → writeErr 409)·배치(task_control.go:298 → items[].error) 작업 제어
-// 응답으로만 사용자에게 노출된다. 오케스트레이터 경로(orchestration.go:343)는 action="pause"
-// 로 고정이라 재개 검증에 닿지 않으므로 두뇌 입력이 아니다. 용어는 task_control.go 의
-// 종료 상태·일시정지 문구와 맞춘다(resume=재개).
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errGoalResumeTerminal  = "无法恢复已结束的任务"
 	errGoalResumeNotPaused = "只能恢复已暂停的任务"
@@ -35,9 +35,9 @@ type goalSpec struct {
 //     分解完再 engine.Run —— 引擎在 goal 节点就绪后才启动,避免 planner 抢在 goal 之前跑的竞态。
 //
 // 异步(goroutine)所以调用方立即返回,两条路径行为一致:秒建任务、后台拆目标。
-// 표시 전용 활동 요약(작업 단위·node_id 없음·전사에만 노출·되먹임 경로 미접촉).
-// 초기 목표 분해 라운드와 동시 실행 대기열 상태 안내다. 한국어화해도 두뇌 입력
-// (BRIEF 경계 #1)을 건드리지 않는다. 포맷 인자(%d)는 원형 보존. [[G132]]
+// 说明。
+// 说明。
+// 说明。
 const (
 	goalBreakdownRound0Summary       = "第 0 轮目标拆解"
 	queuedConcurrencyLimitSummaryFmt = "已加入队列：达到 %d 个并发任务上限，空位释放后将自动启动"

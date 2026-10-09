@@ -25,10 +25,10 @@ import (
 	"github.com/Autumn-27/artex/db"
 )
 
-// 사용자에게 노출되는 가로채기 판정·승인 메시지(한국어). judge 판정 결과·규칙 메시지는
-// 승인 기록(reason)·활동 스트림·409 응답으로 표시된다. 성능에 영향을 주는 에이전트 두뇌
-// (판정 프롬프트 본문)는 번역하지 않으며, [模型] 센티넬(decision_source 분류용 · UI 에서
-// 표시 전 제거 · db SQL LIKE·HasPrefix 소비처와 결합)도 원문 그대로 둔다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	msgReviewContextIncomplete = "审批上下文不完整，需要人工确认："
 	msgModelApprovalFailed     = "模型审批失败，将按失败策略处理："

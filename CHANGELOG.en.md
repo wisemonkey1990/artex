@@ -1,6 +1,6 @@
 # Changelog
 
-[한국어](CHANGELOG.md) · English · [中文 (upstream original)](CHANGELOG.zh.md)
+简体中文 · English · [中文 (upstream original)](CHANGELOG.zh.md)
 
 This document records the changes that the ARTEX Korean edition (this fork) adds on top of the upstream repository. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
@@ -11,13 +11,13 @@ The upstream ARTEX project's per-version release history (0.3.x and earlier) and
 ### Localization (i18n)
 
 - **Forced user-facing output into Korean.** The benchmarked agent's behavioral-instruction body (the "brain") is left in its original language to preserve performance, and a code-level fixed segment (`langDirective`) instructs the agent to write only the user-facing output (vulnerability reports, fact summaries, final summaries, chat replies) in Korean. Commands, payloads, code, and raw logs are kept in their original form.
-- **Translated the web UI into Korean.** Introduced `next-intl` into the Next App Router and split the strings into `web/messages/ko.json` and `web/messages/zh.json`. The original Chinese is preserved in `zh.json` so that it can be compared against upstream updates. Screen strings for the dashboard, vulnerabilities, chat, notification delivery, interception, LLM settings, and more were translated into Korean.
+- **Translated the web UI into Korean.** Introduced `next-intl` into the Next App Router and split the strings into `web/messages/zh.json` and `web/messages/zh.json`. The original Chinese is preserved in `zh.json` so that it can be compared against upstream updates. Screen strings for the dashboard, vulnerabilities, chat, notification delivery, interception, LLM settings, and more were translated into Korean.
 - **Translated the server API's user-facing errors and responses into Korean.** HTTP error and response text that is returned to the browser was replaced with Korean. Text that feeds back into the agent brain as input, however, was kept in its original language to prevent benchmark drift, and the reasoning behind each such decision is recorded in the repository's working documents.
 - **Reorganized the documentation in Korean.** Created a Korean `README.md`, kept an English `README.en.md` alongside it, and preserved the original Chinese as `README.zh.md`.
 
 ### Defense and detection resources
 
-- **Added a defense and detection guide.** A Korean guide ([`docs/defense-ko.md`](docs/defense-ko.md)) and an English version with the same content ([`docs/defense-en.md`](docs/defense-en.md)) that cover how an autonomous AI attack differs from a traditional scanner, the fingerprints (IoCs) a defender can observe, entry points and hardening, detection rules, and incident response.
+- **Added a defense and detection guide.** A Korean guide ([`docs/defense-en.md`](docs/defense-en.md)) and an English version with the same content ([`docs/defense-en.md`](docs/defense-en.md)) that cover how an autonomous AI attack differs from a traditional scanner, the fingerprints (IoCs) a defender can observe, entry points and hardening, detection rules, and incident response.
 - **Provides deployable detection rules.** The guide's fingerprints were turned into rules you can use directly. The host and log layer is covered by [Sigma](https://sigmahq.io) atomic and correlation rules ([`detections/sigma/`](detections/sigma/)), and the network layer by [Suricata](https://suricata.io) rules ([`detections/suricata/`](detections/suricata/)) that target the enrich prober and norma SDK WebFetch User-Agents.
 - **Visualized ATT&CK coverage.** The techniques that the rules tag were organized into a MITRE ATT&CK Navigator layer ([`detections/attack/`](detections/attack/)).
 - **Provides machine-readable indicators of compromise (IoCs) in standard formats.** The unique fingerprints that ARTEX emits were collected into a single CSV ([`detections/indicators/artex_indicators.csv`](detections/indicators/artex_indicators.csv)), along with a MISP event ([`detections/indicators/artex_indicators.misp.json`](detections/indicators/artex_indicators.misp.json)) carrying the same indicators that can be imported straight into a threat-intelligence platform. Indicators that a rule backs are marked with `to_ids`, while host-forensic ports are marked separately as triage clues.

@@ -45,7 +45,7 @@ import { cn } from "@/lib/utils";
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 // Compact relative time. Returns the "{n}{unit}" fragment, or null when there is
-// no timestamp; the caller wraps it with the localized "{value} 전 / 前" suffix.
+// 说明。
 function fmtRel(ts?: string | number): string | null {
   if (!ts) return null;
   const ms = Date.now() - (typeof ts === "number" ? ts * 1000 : Date.parse(ts as string));

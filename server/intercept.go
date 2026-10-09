@@ -23,9 +23,9 @@ func (s *Server) chatGuard() *guard.Guard {
 	return guard.NewWithInterceptor(s.m.interceptor)
 }
 
-// 사용자에게 노출되는 판정(judge) 모델 오류 메시지(한국어). 이 오류는
-// intercept.Judge 가 msgModelApprovalFailed 로 감싸 Decision.Message 로 노출하므로,
-// 래퍼(intercept 패키지)와 언어가 어긋나지 않게 함께 한국어로 둔다.
+// 说明。
+// 说明。
+// 说明。
 const (
 	errNoJudgeModel          = "尚未配置可用的判定模型"
 	errJudgeModelUnavailable = "判定模型配置 #%d 不可用"

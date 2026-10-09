@@ -6,9 +6,9 @@ import (
 	"github.com/Autumn-27/artex/db"
 )
 
-// ---------- P3 agent triggers (사용자 지정 에이전트 전용) ----------
+// 说明。
 
-// 트리거 설정을 검증할 때 사용자에게 돌려주는 오류 문구.
+// 说明。
 const (
 	errTriggerNoCondition  = "请至少选择一个触发条件（定时运行/发现漏洞/达成目标/任务超时/调用工具/创建任务）"
 	errTriggerToolSetEmpty = "工具调用触发器至少需要选择一个工具"

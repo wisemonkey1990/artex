@@ -132,7 +132,7 @@ function groupByAgent(conversations: Conversation[], agentByKey: Map<string, Age
   return [...groups.values()];
 }
 
-// LiveBadge is the small pulsing "실시간" chip reused from the task's main-agent
+// 说明。
 // console — shown while a turn is streaming.
 function LiveBadge() {
   const t = useTranslations("chat");
@@ -171,7 +171,7 @@ function Composer({
   running?: boolean;
   onStop?: () => void;
   stopDisabled?: boolean;
-  // 방식1 파일 업로드: onPickFiles 를 넘겨야 클립 버튼 + 첨부 chip 미리 보기를 표시한다.
+  // 说明。
   attachments?: ChatAttachment[];
   onPickFiles?: (files: File[]) => void;
   onRemoveAttachment?: (path: string) => void;
@@ -181,7 +181,7 @@ function Composer({
   const t = useTranslations("chat");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const atts = attachments ?? [];
-  // 전송 키는 시스템 설정(localStorage)으로 결정하며, 기본값은 Enter 전송이다.
+  // 说明。
   const sendMode = useChatSendMode();
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (!shouldSubmitOnKey(e, sendMode)) return;
@@ -225,8 +225,8 @@ function Composer({
               multiple
               className="hidden"
               onChange={(e) => {
-                // FileList 는 input 요소에 live 바인딩되어 있어, 먼저 배열로 스냅샷한 뒤 value 를 비워야 한다.
-                // 그러지 않으면 비동기 onPickFiles(예: 초안 상태에서 먼저 대화를 생성)가 재개될 때 빈 목록을 받는다.
+                // 说明。
+                // 说明。
                 const picked = Array.from(e.target.files ?? []);
                 e.target.value = ""; // allow re-picking the same file
                 if (picked.length > 0) onPickFiles(picked);
@@ -520,7 +520,7 @@ function ChatView({
   const [input, setInput] = React.useState(initial?.input ?? "");
   const [sending, setSending] = React.useState(false);
   const [stopping, setStopping] = React.useState(false);
-  // 방식1 파일 업로드: 이미 업로드한 첨부(sessions/conv-<id>/uploads/ 에 저장)를 다음 메시지와 함께 보낸다.
+  // 说明。
   const [attachments, setAttachments] = React.useState<ChatAttachment[]>(initial?.attachments ?? []);
   const [uploading, setUploading] = React.useState(false);
   const cursorRef = React.useRef(0); // newest loaded id — incremental-tail anchor
@@ -716,7 +716,7 @@ function ChatView({
     let li = 0,
       lo = 0,
       lcr = 0;
-    let turns = 0; // 에이전트 반복 횟수 = 모델 호출 횟수(usage 종류 1건당 1회)
+    let turns = 0;
     for (const a of messages) {
       if (a.kind === "result") {
         i += a.input_tokens ?? 0;
@@ -1107,7 +1107,7 @@ export default function ChatPage() {
   const [renameText, setRenameText] = React.useState("");
   const [selectedConversationIds, setSelectedConversationIds] = React.useState<Set<number>>(() => new Set());
   // selectionMode gates the multi-select UI: off by default (clean list, no
-  // checkboxes); the header "다중 선택" button turns it on, "완료" turns it off and
+  // 说明。
   // clears the selection.
   const [selectionMode, setSelectionMode] = React.useState(false);
   const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false);
@@ -1244,7 +1244,7 @@ export default function ChatPage() {
     [visibleConversations, agentByKey],
   );
   // conversation agents: custom agents + conversational built-ins (role=assistant,
-  // e.g. Auto / 침투 테스트). The orchestration built-ins (goals/planner/mainagent/worker)
+  // 说明。
   // are task-specific and stay hidden from the chat page.
   const chatAgents = React.useMemo(() => agents.filter((a) => !a.builtin || a.role === "assistant"), [agents]);
   const agentFilterOptions = React.useMemo(() => {
@@ -1257,7 +1257,7 @@ export default function ChatPage() {
     if (agentFilter !== null) keys.add(agentFilter);
     return [...keys]
       .map((key) => ({ key, name: agentByKey.get(key)?.name || key, count: counts.get(key) ?? 0 }))
-      .sort((a, b) => a.name.localeCompare(b.name, "ko"));
+      .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"));
   }, [convs, chatAgents, agentByKey, agentFilter]);
   const conversationCountLabel =
     agentFilter === null

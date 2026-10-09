@@ -23,8 +23,8 @@ const (
 	maxWorkspaceUpload = 512 << 20 // 512 MiB per upload request
 )
 
-// 사용자에게 노출되는 오류 문구(한국어). 경로·페이로드·err.Error() 원문은 그대로 둔다.
-// workspace → "작업 공간"(용어집 정본).
+// 说明。
+// 说明。
 const (
 	errWsIllegalPath      = "路径无效"
 	errWsPathNotFound     = "路径不存在"
@@ -34,7 +34,7 @@ const (
 	errWsTargetIsDir      = "目标路径是目录"
 	errWsCannotDeleteRoot = "无法删除工作区根目录"
 	errWsUploadDirMissing = "目标目录不存在"
-	errWsUploadParse      = "上传处理失败或超出大小限制：" // 뒤에 err.Error() 를 이어 붙인다
+	errWsUploadParse      = "上传处理失败或超出大小限制："
 	errWsNoUploadFile     = "没有要上传的文件（表单字段 file）"
 )
 
@@ -105,7 +105,7 @@ func (s *Server) wsList(w http.ResponseWriter, r *http.Request) {
 			MTime: info.ModTime().UnixMilli(),
 		})
 	}
-	// 디렉터리를 먼저 두고, 각각 이름순으로 정렬한다.
+	// 说明。
 	sort.Slice(out, func(i, j int) bool {
 		if out[i].Dir != out[j].Dir {
 			return out[i].Dir

@@ -20,14 +20,14 @@ func TestWebUIStubErrorLocalized(t *testing.T) {
 	(&Server{}).webuiHandler().ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusNotFound {
-		t.Fatalf("상태 코드가 404 가 아닙니다: %d", rec.Code)
+		t.Fatalf("测试文本 测试文本 404 测试文本 测试文本: %d", rec.Code)
 	}
 	body := strings.TrimSpace(rec.Body.String())
 	assertChineseMessage(t, "webui.stub", body)
-	// 명령 참조는 원문 그대로 보존되어야 한다(번역 대상 아님).
+	// 说明。
 	for _, want := range []string{"next dev", "-tags embedui"} {
 		if !strings.Contains(body, want) {
-			t.Fatalf("명령 참조 %q 가 응답에 없습니다: %q", want, body)
+			t.Fatalf("测试文本 测试文本 %q 测试文本 测试文本 测试文本: %q", want, body)
 		}
 	}
 }

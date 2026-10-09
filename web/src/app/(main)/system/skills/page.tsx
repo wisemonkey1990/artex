@@ -354,19 +354,19 @@ export default function SkillsPage() {
       .agents()
       .then(setAgents)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .mcpServers()
       .then(setMcpOptions)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .missingSkills()
       .then(setMissing)
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
     api
       .skills()
@@ -377,12 +377,12 @@ export default function SkillsPage() {
             .skillVisibility(s.name)
             .then((ids) => setVisibility((v) => ({ ...v, [s.name]: ids })))
             .catch(() => {
-              /* 가시성 조회 실패는 무시한다 */
+              /* 说明。 */
             });
         });
       })
       .catch(() => {
-        /* 조회 실패는 무시하고 기본 상태를 유지한다 */
+        /* 说明。 */
       });
   }, []);
 
@@ -400,7 +400,7 @@ export default function SkillsPage() {
     } catch (e) {
       const msg = (e as Error).message;
       // offer overwrite when the skill already exists
-      // (server_mgmt.go errMgmtSkillExistsPre 와 짝 맞춘 교차 스택 마커)
+      // 说明。
       if (!overwrite && msg.includes("已存在")) {
         if (window.confirm(t("overwriteConfirm", { msg }))) {
           await uploadZip(file, true);

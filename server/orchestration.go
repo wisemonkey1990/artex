@@ -728,13 +728,13 @@ func (s *Server) upgradeReporterTriggerMessage() {
 	}
 }
 
-// reporterAgentName·reporterAgentDescription 은 시드되는 reporter 에이전트의 표시 전용
-// 라벨이다(한국어화). 에이전트의 두뇌(段[A] agent.ReporterDefaultPrompt)와 트리거 주입
-// 메시지(reporterToolCallMessage)는 모델 입력이라 중국어 원문을 보존하지만, 이 이름·설명은
-// `agentDTO` 로 system/agents UI 에만 렌더되고(server_mgmt.go) 어떤 프롬프트·에이전트 선택에도
-// 들어가지 않는 순수 UI 라벨이라 한국어화한다(BRIEF 사용자 노출 산출물 한국어화 범위). 트리거는
-// report_finding 도구 호출 기반(OnToolCall·결정적)이라 reporter 는 key "reporter" 로 참조될 뿐
-// 표시 이름으로 선택되지 않는다. 회귀 방어: reporter_seed_localized_test.go. [[F35]]
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const reporterAgentName = "报告撰写"
 const reporterAgentDescription = "撰写漏洞详细报告：发现漏洞后自动触发，读取证据和执行过程，生成 Markdown 报告并保存到对应漏洞。"
 

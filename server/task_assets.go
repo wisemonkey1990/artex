@@ -10,8 +10,8 @@ import (
 
 const maxTaskAssetRequestBytes = 512 << 10
 
-// 작업 자산 API 가 사용자에게 돌려주는 오류 응답 문구. 필드명(scope·asset_ids)은
-// 요청 본문 키라 원문 그대로 두고, 사람이 읽는 메시지만 한국어로 둔다.
+// 说明。
+// 说明。
 const (
 	errTaskAssetRequestTooLarge = "请求正文过大"
 	errTaskAssetScopeConflict   = "scope 和 asset_ids 不能同时提交"

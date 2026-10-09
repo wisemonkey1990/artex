@@ -37,7 +37,7 @@ func wsErrBody(t *testing.T, rec *httptest.ResponseRecorder) string {
 		Error string `json:"error"`
 	}
 	if err := json.Unmarshal(rec.Body.Bytes(), &out); err != nil {
-		t.Fatalf("응답 JSON 파싱 실패: %v (본문 %q)", err, rec.Body.String())
+		t.Fatalf("测试文本 JSON 测试文本 测试文本: %v (测试文本 %q)", err, rec.Body.String())
 	}
 	return out.Error
 }
@@ -78,7 +78,7 @@ func TestWorkspaceHandlerResponsesLocalized(t *testing.T) {
 			rec := httptest.NewRecorder()
 			c.handler(rec, c.req)
 			if rec.Code != c.code {
-				t.Fatalf("status = %d, want %d (본문 %q)", rec.Code, c.code, rec.Body.String())
+				t.Fatalf("status = %d, want %d (测试文本 %q)", rec.Code, c.code, rec.Body.String())
 			}
 			got := wsErrBody(t, rec)
 			if got != c.want {

@@ -203,8 +203,8 @@ function taskDuration(task: Task, nowSec: number): number {
 // aggregate accumulated over a bulk delete.
 type DeleteCounts = Omit<DeleteTaskResult, "deleted" | "cleanup_warning">;
 
-// 모듈 레벨 함수는 hook 을 호출할 수 없으므로, 번역 함수를 인자로 받아 사용자 노출
-// 문자열을 한국어로 만든다(approval-records 선례).
+// 说明。
+// 说明。
 type Translator = ReturnType<typeof useTranslations>;
 
 function deleteDetails(t: Translator, result: DeleteCounts): string[] {
@@ -232,8 +232,8 @@ function fmtDateTime(unix?: number): string {
   return `${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
-// 상태 필터 옵션. 라벨은 렌더 시점에 status.task 네임스페이스로 번역하므로 여기서는
-// 값(순서 포함)만 둔다.
+// 说明。
+// 说明。
 const STATUS_OPTIONS: readonly TaskStatus[] = ["created", "queued", "running", "paused", "done", "failed", "timeout"];
 
 // Select 不接受空字符串 value,所以「无分类」在筛选器、新建表单和批量移动里

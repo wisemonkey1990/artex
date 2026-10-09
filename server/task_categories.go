@@ -14,15 +14,15 @@ import (
 
 const maxTaskCategoryRequestBytes = 16 << 10
 
-// 작업 분류 API 가 사용자에게 돌려주는 오류 응답 문구. 명령·필드명(task_ids·
-// category_id·id)·enum 은 원문 그대로 두고, 사람이 읽는 메시지만 한국어로 둔다.
+// 说明。
+// 说明。
 const (
 	errTaskCatRequestTooLarge = "请求正文过大"
 	errTaskCatNameEmpty       = "分类名称不能为空"
 	errTaskCatNameTooLong     = "分类名称最多可包含 80 个字符"
 	errTaskCatNameConflict    = "分类名称已存在"
 	errTaskCatInvalidID       = "任务分类 id 无效"
-	// errTaskCatBatchSizeFmt 는 fmt.Sprintf 로 상한을 채우는 형식 문자열이다.
+	// 说明。
 	errTaskCatBatchSizeFmt = "task_ids 数量必须为 1 至 %d"
 )
 

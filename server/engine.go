@@ -76,15 +76,15 @@ const (
 
 var errWorkControlConflict = errors.New("work control conflict")
 
-// 아래 네 상수는 controlIntent(HTTP 핸들러)와 sendWorkerMessage(의도 개입)가 writeErr 로
-// 사용자에게 그대로 노출하는 작업 제어 오류 문구다. ControlWork 의 반환 오류는
-// applyIntentControl(task_control.go) → controlIntent(server.go:1236) → writeErr 409 로,
-// runDetachedIntent 의 반환 오류는 intent_intervention.go:147 → writeErr 로 사용자 화면에
-// 뜬다. 두 경로 모두 에이전트 도구(actool) 입력에 닿지 않으므로 한국어로 바꾼다. 반대로
-// 같은 파일의 SteerWork·KillWork(steer_work·kill_work 도구 결과)와 transitionIntentState
-// (내부 상태 전이 로그) 문구는 두뇌 입력·로그라 성능 드리프트를 막기 위해 원문을 보존한다
-// (각 지점 주석 참조). 의도가 더 이상 paused 상태가 아니라는 재개 충돌 문구는 task_control.go
-// 의 errIntentCtrlStateConflictFmt 를 재사용해 단일 출처를 유지한다.
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errWorkControlNoRunningWorkFmt = "%w：意图 %d 没有正在运行的 Worker（可能已结束或尚未分配）"
 	errWorkControlBusyFmt          = "%w：意图 %d 已在执行 %s 控制操作"
@@ -498,9 +498,9 @@ func transitionIntentState(store *db.ExplorationStore, intentID int64, expected,
 		return err
 	}
 	if !changed {
-		// 이 CAS 충돌 오류는 runIntent(아래 989~1156) 안에서만 쓰이고 그 함수는 bool 을
-		// 반환한다. 오류는 log.Printf 로 남기거나 흐름 제어에만 쓰여 HTTP 응답·에이전트
-		// 도구(actool)로 나가지 않으므로, 로그 성격(Z2)이라 원문을 보존한다.
+		// 说明。
+		// 说明。
+		// 说明。
 		return fmt.Errorf("%w: 意图 %d 不再是 %s 状态", db.ErrIntentStateConflict, intentID, expected)
 	}
 	return nil
@@ -510,9 +510,9 @@ func transitionIntentState(store *db.ExplorationStore, intentID int64, expected,
 // planner's steer_work tool). The worker delivers it before its next tool call and
 // re-plans — no kill. Errors if no work is currently running that intent.
 func (e *Engine) SteerWork(intentID int64, msg string) error {
-	// SteerWork 는 planner·mainagent 의 steer_work 도구(agent/tools.go)로 배선되어, 아래 두
-	// 오류가 actool.Errorf(err.Error()) 로 에이전트에게 되돌아가는 두뇌 입력이다. 번역하면
-	// 벤치마크된 에이전트의 입력이 바뀌어 성능 드리프트 위험이 있어 원문을 보존한다.
+	// 说明。
+	// 说明。
+	// 说明。
 	if strings.TrimSpace(msg) == "" {
 		return fmt.Errorf("纠偏消息不能为空")
 	}
@@ -648,9 +648,9 @@ func (e *Engine) KillWork(intentID int64) error {
 	run := e.work[intentID]
 	e.workMu.Unlock()
 	if run == nil {
-		// KillWork 는 planner 의 kill_work 도구(agent/tools.go)로 배선되어, 이 오류가
-		// actool.Errorf(err.Error()) 로 에이전트에게 되돌아가는 두뇌 입력이다. SteerWork 와
-		// 같은 이유로 원문을 보존한다.
+		// 说明。
+		// 说明。
+		// 说明。
 		return fmt.Errorf("意图 %d 当前没有运行中的 work（可能已结束或未被领取）", intentID)
 	}
 	run.cancel(agent.AbortKilledByPlanner)
@@ -662,11 +662,11 @@ func (e *Engine) Broadcaster() *Broadcaster { return e.bc }
 
 // emitActivity persists one captured step AND fans it out to live subscribers,
 // from a single point so storage and the SSE stream never diverge.
-// 표시 전용 활동 요약(작업 단위·node_id 없음). 대시보드 전사에만 노출되며 어떤
-// 에이전트의 컨텍스트로도 되읽히지 않는다 — 되먹임 경로(planner.workerOutput·
-// get_worker_output 도구)는 intent 범위(node_id)로 'result'/'text' 활동만 고르는데,
-// 이 요약들은 node_id 를 달지 않는다. 그래서 한국어화해도 두뇌 입력(BRIEF 경계 #1)을
-// 건드리지 않는다. 포맷 인자(%d)는 원형 보존. [[G132]]
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	goallessTaskDoneSummary = "所有目标均已达成，直接提交的意图也已执行完毕，任务结束"
 	plannerRoundSummaryFmt  = "第 %d 轮规划"
@@ -1229,8 +1229,8 @@ func (e *Engine) runDetachedIntent(ctx context.Context, t *Task, intentID int64,
 		return err
 	}
 	if !changed {
-		// 재개 CAS 충돌: controlIntent·sendWorkerMessage 의 재개 경로와 의미가 같으므로
-		// task_control.go 의 errIntentCtrlStateConflictFmt 를 재사용해 단일 출처를 유지한다.
+		// 说明。
+		// 说明。
 		return fmt.Errorf(errIntentCtrlStateConflictFmt, db.ErrIntentStateConflict)
 	}
 	node.State, node.Owner = "running", "chat"

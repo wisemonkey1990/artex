@@ -19,12 +19,12 @@ import (
 	actool "github.com/Autumn-27/norma/tool"
 )
 
-// 사용자 노출 HTTP 에러 응답 문구. 아래 네 문구는 HTTP 핸들러(findingTrafficAccess·
-// bindFindingTraffic·editFindingTraffic)에서만 반환되고 에이전트 도구 경로
-// (toolGetFindingTraffic)에는 닿지 않으므로 한국어로 번역한다. 반대로
-// readEvidencePreview 의 errors.New(offset/length 검증)·이진 본문 플레이스홀더와
-// roTool("get_finding_traffic") 도구 설명은 에이전트가 읽는 두뇌 입력이라 원문을
-// 보존한다(각 지점 주석 참조, F16 두뇌 경계 계열).
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	errFindingTrafficInheritedReadonly  = "继承的漏洞为只读，请在来源任务中修改"
 	errFindingTrafficSelectRequired     = "请选择流量记录"
@@ -251,10 +251,10 @@ type evidencePreview struct {
 	Binary     bool   `json:"binary"`
 }
 
-// readEvidencePreview 는 HTTP 핸들러와 에이전트 도구(toolGetFindingTraffic)가 함께
-// 쓰는 공유 헬퍼다. 아래 두 errors.New 와 이진 본문 플레이스홀더(Content)는 에이전트
-// 도구 결과(actool.Errorf·body 콘텐츠)로 되먹여져 두뇌 입력이 되므로, 성능 드리프트를
-// 피하려고 중국어 원문을 보존한다(F16 두뇌 경계 계열 — 표시/입력 분리는 별도 결정 대기).
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 func readEvidencePreview(store *evidence.Store, snapshot db.TrafficEvidenceSnapshot, side string, offset, length int64) (out evidencePreview, err error) {
 	if offset < 0 || length < 0 {
 		return out, errors.New("offset / length 不能为负数")

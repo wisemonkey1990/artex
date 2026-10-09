@@ -1,6 +1,6 @@
 # Upstream Sync and Preventing Translation Drift (Maintainer Guide)
 
-[한국어](MAINTAINING.md) · English
+简体中文 · English
 
 This document lays out the procedure a **maintainer** follows to keep up with changes in the
 upstream repository [Autumn-27/ARTEX](https://github.com/Autumn-27/ARTEX) while maintaining the
@@ -29,7 +29,7 @@ The deliverables fall into three groups.
   ability to diff against upstream.
 - **Output-language enforcement fixed in code.** `langDirective()` in `agent/prompt.go` appends to
   the end of each role's system prompt the instruction "write user-facing output in Korean."
-- **User-facing strings that are translated into Korean.** The UI lives in `web/messages/ko.json`;
+- **User-facing strings that are translated into Korean.** The UI lives in `web/messages/zh.json`;
   the server's user-facing response strings live in named constants in each Go file.
 
 ---
@@ -49,7 +49,7 @@ an upstream change touches these assets, **apply it as is, without translating**
   boundary records" in `work/DECISIONS-FOR-JIWOO.md`.
 - **The original Chinese documents and strings.** Documents keep the original in `README.zh.md` and
   UI strings keep it in `web/messages/zh.json`, so that diffing against upstream changes stays easy.
-  Korean translations are filled in only in `web/messages/ko.json`.
+  Korean translations are filled in only in `web/messages/zh.json`.
 - **Command, payload, code, URL, identifier, and log originals.** These are the originals needed for
   analysis, so they are not translated. Go code comments are the lowest priority as well and stay in
   the original until the upstream diff is finished.
@@ -105,7 +105,7 @@ The classification criteria are as follows.
   check for **newly introduced user-facing strings** (`writeErr`, and the like) and translate those
   into Korean constants.
 - If the UI (`web/src/**`) changed and introduced **new screen strings** → do not hard-code them;
-  add them under the same key to `web/messages/zh.json` (original) and `web/messages/ko.json`
+  add them under the same key to `web/messages/zh.json` (original) and `web/messages/zh.json`
   (translation).
 - If **upstream indicators pinned by the detection rules** changed (the prober User-Agent in
   `enrich/enrich.go`, the self-update User-Agent in `selfupdate/`, the audit marker in
@@ -147,7 +147,7 @@ the `ko.json` values. The script below prints three numbers.
 ```bash
 python3 - <<'PY'
 import json, re
-ko = json.load(open('web/messages/ko.json'))
+ko = json.load(open('web/messages/zh.json'))
 zh = json.load(open('web/messages/zh.json'))
 def flatten(d, p=''):
     out = {}
@@ -264,7 +264,7 @@ For example, an upstream-sync commit is written like this (the description is in
 repository's actual rule).
 
 ```
-chore(upstream): 상류 d003372..b55ceb1 반영 (intercept 토큰 계량) + 신규 UI 문자열 번역
+chore(upstream): 同步上游 d003372..b55ceb1（拦截令牌计量）并翻译新增 UI 字符串
 ```
 
 ---
@@ -304,7 +304,7 @@ gh repo set-default --view   # check that jiwoochris/artex-ko shows up
 ### 8.2 Check external links in documents with GET, like a browser
 
 Section 7 of the defense guide ([`docs/defense-en.md`](docs/defense-en.md) ·
-[`defense-ko.md`](docs/defense-ko.md)) carries links to Korean official channels (boho.or.kr,
+[`defense-en.md`](docs/defense-en.md)) carries links to Korean official channels (boho.or.kr,
 fsec.or.kr, pipc.go.kr). When checking whether these links are alive, using only `curl -I` (a HEAD
 request) or the default User-Agent will **mistake a healthy link for a broken one**. Korean public and
 security agency sites refuse a simple check for three reasons.

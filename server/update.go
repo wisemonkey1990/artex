@@ -20,9 +20,9 @@ import (
 // 重启不由本进程完成：暂存好新版本后进程以 selfupdate.ExitRestart 退出，
 // 由守护脚本（start.sh / start.bat，Docker 下是 ENTRYPOINT）重新拉起。
 
-// 사용자에게 노출되는 업데이트 메시지(SSE 진행 메시지·검사 사유·에러 응답).
-// 프런트엔드(system/settings 의 update-card)가 progress.message·reason·writeErr
-// 본문을 그대로 렌더하므로 한국어로 둔다. 로그·중국어 주석은 Z2(로그 최하위)라 범위 밖.
+// 说明。
+// 说明。
+// 说明。
 const (
 	updateMsgPreparing          = "准备中…"
 	updateMsgFailed             = "更新失败"

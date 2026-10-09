@@ -36,16 +36,16 @@ import (
 // Defaults to "dev" for local builds. Exposed to the frontend via GET /api/health.
 var BuildVersion = "dev"
 
-// 사용자에게 노출되는 writeErr 응답 문구(한국어). 에이전트에 전달되는 프롬프트·도구
-// 설명·payload·로그는 원문을 보존하고, HTTP 핸들러가 writeErr/fmt.Errorf 로 내보내는
-// 최종 사용자 응답만 한국어로 둔다. (F3b, 번역어는 완료 파일·web i18n 과 동일 표기)
+// 说明。
+// 说明。
+// 说明。
 const (
-	// 의도 제어·재실행 (controlIntent / rerunIntent / rerunBlocked)
+	// 说明。
 	errTaskDeletingIntentControl = "正在删除任务，无法控制意图"
 	errTaskDeletingIntentRerun   = "正在删除任务，无法重新运行意图"
 	errIntentNotRerunnable       = "当前状态不支持重新运行（仅 blocked、exhausted、stopped 状态可重新运行）"
 
-	// 작업 생성 (createTask) — 소스 작업·기업·분류·작업 수준 가로채기 규칙 검증
+	// 说明。
 	errCreateTaskSourceLimit     = "最多可关联 %d 个来源任务"
 	errCreateTaskSourceInvalid   = "来源任务 id 无效或重复"
 	errCreateTaskSourceNotFound  = "未找到来源任务 #%d"
@@ -54,46 +54,46 @@ const (
 	errCreateTaskCategoryInvalid = "任务分类不存在或无效"
 	errCreateTaskCompanyInvalid  = "关联企业不存在或无效"
 
-	// LLM 설정 검증 (validateTaskProfileIDs → createTask/updateTaskLLMProfiles writeErr)
+	// 说明。
 	errLLMProfileInvalid  = "LLM 配置 id 无效或重复"
 	errLLMProfileNotFound = "未找到 LLM 配置 #%d 或尚未设置 API Key"
 
-	// 자산 저장소·커버리지 (taskCoverage / taskCoverageGraph / taskAssetRefs …)
+	// 说明。
 	errAssetStoreDisabled = "资产存储未启用"
 	errAssetIDRequired    = "必须提供 asset_id"
 
-	// 파이썬 인터프리터 탐지 (pgDetectPython)
+	// 说明。
 	errPythonNotDetected = "未找到 python（PATH 中没有 python3 或 python）"
 
-	// 알림 전역 설정 (링크 기준 주소·요약 주기 — web notify.global 라벨과 동일 표기)
+	// 说明。
 	errNotifyBaseURLScheme = "链接基准地址必须以 http:// 或 https:// 开头"
 	errNotifyDigestRange   = "摘要间隔须为 1 至 1440 分钟"
 
-	// 메인 에이전트 대화·세션 (newMainSession / chat)
+	// 说明。
 	errTaskDeletingNewSession = "正在删除任务，无法创建新会话"
 	errTaskDeletingNewMessage = "正在删除任务，无法发送新消息"
 	errMainAgentBusy          = "主智能体正在处理上一条消息，请稍后重试"
 )
 
-// 사용자에게 노출되지만 writeErr 를 거치지 않는 응답 문구(한국어). writeJSON 의 error
-// 필드나 메서드 return 으로 화면에 그대로 뜨므로 위 블록과 성격은 같되 경로가 다르다.
-// nav 경로는 web i18n 라벨(nav.system="시스템", llmConfig="LLM 설정")과 동일 표기. (F34)
+// 说明。
+// 说明。
+// 说明。
 const (
-	// 채팅 LLM 부재 사유 (chatUnavailableReason → writeErr 503 / 대화 종료 사유)
+	// 说明。
 	errChatNoLLMProfile       = "尚未配置 LLM：请前往“系统 → LLM 配置”添加一项配置"
 	errChatNoActiveLLMProfile = "没有已启用的 LLM 配置：请前往“系统 → LLM 配置”启用一项配置，或为此对话指定配置"
 	errChatLLMNotReady        = "LLM 尚未就绪，无法开始对话：请检查“系统 → LLM 配置”中是否有可用且已启用的配置"
 
-	// LLM 연결 테스트·웹 검색 프로브 (writeJSON {ok:false, error:…}, 설정 화면 점검 결과)
+	// 说明。
 	errLLMTestNoAPIKey         = "未提供 API Key"
 	errWebSearchProbeNoResults = "搜索结果为 0 条（请求可能受限或代理未连接）"
 )
 
-// 규칙 모드 채팅(LLM 미설정 시 사람이 직접 조종하는 fallbackChat) 사용자 응답(한국어).
-// reply 는 writeJSON 과 대화 로그 양쪽으로 사용자에게 그대로 노출된다. 입력 트리거 키워드는
-// 기존 영어 별칭(intent/hint)과 같은 방식으로 한국어 별칭(의도/힌트)을 추가로 받는다 —
-// 순수 입력 파싱이고 와이어 포맷이 아니므로 중국어·영어 트리거를 유지한 채 더하기만 한다.
-// 용어는 web i18n·GLOSSARY 와 정합: intent→의도, hint→힌트, finding→취약점, planner→플래너. (F34 d)
+// 说明。
+// 说明。
+// 说明。
+// 说明。
+// 说明。
 const (
 	fallbackIntentInjected = "已加入一项高优先级意图："
 	fallbackHintRecorded   = "提示已记录，规划器将在下次读取："
@@ -294,13 +294,13 @@ func New(ctx context.Context, m *Manager, skillDir string, dataDir string, keyDi
 		go newScheduler(s).Run(s.ctx) // P3 触发器调度(定时/finding/目标事件),仅自定义 agent
 		// 漏洞 IM 推送投递引擎。与 Scheduler 并列但独立：推送的实时性要求(3s)
 		// 与触发器的业务节奏不同，且两者失败互不牵连——推送卡住不该影响 agent 触发。
-		// 통합 테스트는 stepRealtime·stepDigest 를 직접 호출해 분배를 결정론적으로
-		// 검증하므로, 이 환경 변수로 백그라운드 루프만 끌 수 있다(미설정이 기본).
+		// 说明。
+		// 说明。
 		if os.Getenv(notifyBackgroundDisabledEnv) == "" {
 			go newNotifier(s).Run(s.ctx)
 		} else {
-			// 핵심 기능(취약점 IM 알림 전송)을 끄는 분기라 시작 로그를 남긴다. 이 변수는
-			// 통합 테스트 전용이므로, 운영에서 켜져 있으면 실수나 환경 상속을 의심할 단서가 된다.
+			// 说明。
+			// 说明。
 			log.Printf("[notify] 后台通知发送循环已通过 %s 关闭（仅限测试），漏洞即时消息通知不会发送", notifyBackgroundDisabledEnv)
 		}
 		// Fill the tool cache for any enabled MCP that has none yet (notably the
@@ -3885,18 +3885,17 @@ func (s *Server) stopChat(w http.ResponseWriter, r *http.Request) {
 }
 
 // fallbackCommand classifies a rule-mode chat message into an intent/hint command
-// plus the trimmed argument. The trigger keywords accept Chinese (意图/提示), English
-// (intent/hint) and Korean (의도/힌트) prefixes — pure input parsing, not a wire
-// format, so the Korean aliases are additive and backward compatible. cmd is
+// plus the trimmed argument. Trigger keywords accept Chinese (意图/提示) and English
+// (intent/hint) prefixes. cmd is
 // "intent", "hint" or "" (status summary). (F34 d)
 func fallbackCommand(msg string) (cmd, text string) {
 	m := strings.TrimSpace(msg)
 	lower := strings.ToLower(m)
 	switch {
-	case strings.HasPrefix(m, "意图") || strings.HasPrefix(m, "의도") || strings.HasPrefix(lower, "intent"):
-		return "intent", strings.TrimSpace(strings.TrimPrefix(strings.TrimPrefix(strings.TrimPrefix(m, "意图"), "의도"), "intent"))
-	case strings.HasPrefix(m, "提示") || strings.HasPrefix(m, "힌트") || strings.HasPrefix(lower, "hint"):
-		return "hint", strings.TrimSpace(strings.TrimPrefix(strings.TrimPrefix(strings.TrimPrefix(m, "提示"), "힌트"), "hint"))
+	case strings.HasPrefix(m, "意图") || strings.HasPrefix(lower, "intent"):
+		return "intent", strings.TrimSpace(strings.TrimPrefix(strings.TrimPrefix(m, "意图"), "intent"))
+	case strings.HasPrefix(m, "提示") || strings.HasPrefix(lower, "hint"):
+		return "hint", strings.TrimSpace(strings.TrimPrefix(strings.TrimPrefix(m, "提示"), "hint"))
 	default:
 		return "", m
 	}

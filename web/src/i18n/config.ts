@@ -1,5 +1,5 @@
-// 支持的语言与默认值。简体中文是默认界面语言，韩语作为可选语言保留。
-export const LOCALES = ["zh", "ko"] as const;
+// 当前界面使用简体中文。
+export const LOCALES = ["zh"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "zh";
 

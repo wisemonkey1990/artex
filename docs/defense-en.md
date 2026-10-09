@@ -2,7 +2,7 @@
 
 > This document helps **defenders** understand how an **autonomous AI penetration agent** such as ARTEX operates, so that you can build the capability to **detect and block** such attacks. It is not a guide to carrying out attacks. Use everything here only to protect systems you own or have explicit written authorization to test. Probing or attacking someone else's information and communications network without authorization is itself a crime (see the [security and misuse warning in the top-level README](../README.en.md)).
 >
-> 한국어판: **[자율 AI 공격 방어·탐지 가이드 (defense-ko.md)](defense-ko.md)**.
+> 本文介绍自主 AI 攻击的防御与检测方法。
 
 An autonomous AI attack tool turns a penetration test — once a manual process a single operator ran by hand — into a 24/7 automated process in which an LLM agent **breaks goals down on its own, executes real tools, and accumulates discoveries**. The adversary a defender faces shifts from "one skilled attacker" to "a swarm of agents that never tire and never rest." This guide sets out what that shift demands of detection and response.
 
@@ -156,8 +156,8 @@ description: |
     signature; tune the count and window to your own baseline. On its own this leg is low signal
     and earns weight only inside the correlation below.
 references:
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-ko.md
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
 author: artex-ko defense guide (generic template)
 date: 2026-10-07
 tags:
@@ -186,8 +186,8 @@ description: |
     correlation below. Extend the marker list to your own probe corpus and WAF categories; it is
     a coarse proxy for the broader "adapts requests to responses" behaviour the guide describes.
 references:
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-ko.md
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
 author: artex-ko defense guide (generic template)
 date: 2026-10-07
 tags:
@@ -219,8 +219,8 @@ description: |
     often expose weaker identity-verification endpoints than the main service and belong here
     too. This leg is broad by design and is only meaningful inside the correlation below.
 references:
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-ko.md
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
 author: artex-ko defense guide (generic template)
 date: 2026-10-07
 tags:
@@ -257,8 +257,8 @@ description: |
     session identifier if you have one) and tune the window to your baseline. If three legs are
     too strict and miss cases, relax to any two of the three.
 references:
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-ko.md
-    - https://github.com/jiwoochris/artex-ko/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
+    - https://github.com/wisemonkey1990/artex/blob/main/docs/defense-en.md
 author: artex-ko defense guide (generic template)
 date: 2026-10-07
 tags:

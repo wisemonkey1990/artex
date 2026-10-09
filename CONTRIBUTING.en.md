@@ -1,13 +1,13 @@
 # Contributing
 
-[한국어](CONTRIBUTING.md) · English
+简体中文 · English
 
 Thank you for your interest in the Korean edition of ARTEX (`artex-ko`). This document
 gathers the scope, policies, and procedures you should know before you start contributing.
 Before you send a contribution, please read [Authorized use and legal responsibility](#authorized-use-and-legal-responsibility)
 and [Localization policy](#localization-policy) first.
 
-- To report a bug or suggest a feature → use the [issue templates](https://github.com/jiwoochris/artex-ko/issues/new/choose).
+- To report a bug or suggest a feature → use the [issue templates](https://github.com/wisemonkey1990/artex/issues/new/choose).
 - If you find a translation or localization error → use the "translation/localization error" issue template.
 - If you find a security vulnerability → **do not open a public issue**; follow the procedure in [SECURITY.en.md](SECURITY.en.md).
 - Everyone who takes part must follow the [Code of Conduct (CODE_OF_CONDUCT.en.md)](CODE_OF_CONDUCT.en.md).
@@ -54,7 +54,7 @@ this policy can degrade performance, so we do not accept them.
   needed for analysis, so they are left as is.
 - **The original Chinese is preserved.** Documents keep the original in `README.zh.md` and UI
   strings keep it in `web/messages/zh.json`, so that changes in the upstream repository are
-  easy to compare against. Korean translations are filled into `web/messages/ko.json`.
+  easy to compare against. Korean translations are filled into `web/messages/zh.json`.
 - When you translate a new UI string, do not hard-code it; add it as a key in the message files.
 - **The output-language enforcement is a prompt nudge, not a hard cap.** `langDirective()`
   **instructs** the model to output Korean; it does not force-lock the language. Korean fidelity
@@ -207,9 +207,9 @@ and the description is written in Korean.
 Examples.
 
 ```
-feat(agent): 사용자 노출 출력을 한국어로 강제 (langDirective)
-docs: 한국어 README 작성, 원본은 README.zh.md 로 보존
-i18n(web): 대시보드 네비게이션 라벨 한국어 번역
+feat(agent): 将面向用户的输出设为中文 (langDirective)
+docs: 编写中文 README，并在 README.zh.md 中保留上游原文
+i18n(web): 翻译仪表盘导航标签
 ```
 
 ---
