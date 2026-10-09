@@ -7,25 +7,25 @@ import (
 	"unicode"
 )
 
-// assertKorean fails if msg is empty, carries a CJK Han ideograph (= leftover
+// assertChinese fails if msg is empty, carries a CJK Han ideograph (= leftover
 // untranslated Chinese), or has no Hangul at all. ASCII field names and the
 // "1–4000"-style ranges are fine; only Han marks an unlocalized string.
-func assertKorean(t *testing.T, label, msg string) {
+func assertChinese(t *testing.T, label, msg string) {
 	t.Helper()
 	if msg == "" {
-		t.Fatalf("%s: 测试文本 测试文本", label)
+		t.Fatalf("%s: 文案不能为空", label)
 	}
-	hangul := false
+	hasHan := false
 	for _, r := range msg {
-		if unicode.Is(unicode.Han, r) {
-			t.Fatalf("%s: 测试文本 测试文本 测试文本 测试文本: %q", label, msg)
-		}
 		if unicode.Is(unicode.Hangul, r) {
-			hangul = true
+			t.Errorf("%s: 文案包含韩文: %q", label, msg)
+		}
+		if unicode.Is(unicode.Han, r) {
+			hasHan = true
 		}
 	}
-	if !hangul {
-		t.Fatalf("%s: 测试文本 测试文本: %q", label, msg)
+	if !hasHan {
+		t.Errorf("%s: 文案缺少中文: %q", label, msg)
 	}
 }
 
@@ -34,16 +34,16 @@ func assertKorean(t *testing.T, label, msg string) {
 // 说明。
 // revert to Chinese here is a user-visible regression and must fail the build.
 func TestSideQuestionOutputsLocalized(t *testing.T) {
-	assertKorean(t, "ErrContextBudget", ErrContextBudget.Error())
-	assertKorean(t, "errSideModelInterrupted", errSideModelInterrupted.Error())
-	assertKorean(t, "errSideNoAnswer", errSideNoAnswer.Error())
-	assertKorean(t, "msgSideToolUnavailable", msgSideToolUnavailable)
-	assertKorean(t, "errSideSummaryCallCap", errSideSummaryCallCap.Error())
-	assertKorean(t, "sideSummaryFailedPrefix", sideSummaryFailedPrefix)
-	assertKorean(t, "errSideSummaryIncomplete", errSideSummaryIncomplete.Error())
-	assertKorean(t, "errSideSummaryOverBudget", errSideSummaryOverBudget.Error())
-	assertKorean(t, "errSideHistoryCursor", errSideHistoryCursor.Error())
-	assertKorean(t, "errSideCompactionStalled", errSideCompactionStalled.Error())
+	assertChinese(t, "ErrContextBudget", ErrContextBudget.Error())
+	assertChinese(t, "errSideModelInterrupted", errSideModelInterrupted.Error())
+	assertChinese(t, "errSideNoAnswer", errSideNoAnswer.Error())
+	assertChinese(t, "msgSideToolUnavailable", msgSideToolUnavailable)
+	assertChinese(t, "errSideSummaryCallCap", errSideSummaryCallCap.Error())
+	assertChinese(t, "sideSummaryFailedPrefix", sideSummaryFailedPrefix)
+	assertChinese(t, "errSideSummaryIncomplete", errSideSummaryIncomplete.Error())
+	assertChinese(t, "errSideSummaryOverBudget", errSideSummaryOverBudget.Error())
+	assertChinese(t, "errSideHistoryCursor", errSideHistoryCursor.Error())
+	assertChinese(t, "errSideCompactionStalled", errSideCompactionStalled.Error())
 }
 
 // TestSideQuestionBudgetSentinelPreserved: localizing the message must not break

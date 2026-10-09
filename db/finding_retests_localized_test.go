@@ -8,22 +8,22 @@ import (
 // 说明。
 // 说明。
 // 说明。
-func assertRetestReasonKorean(t *testing.T, name, s string) {
+func assertRetestReasonChinese(t *testing.T, name, value string) {
 	t.Helper()
-	if s == "" {
-		t.Fatalf("%s: 测试文本 测试文本", name)
+	if value == "" {
+		t.Fatalf("%s: 文案不能为空", name)
 	}
-	hasHangul := false
-	for _, r := range s {
-		if unicode.Is(unicode.Han, r) {
-			t.Fatalf("%s: 测试文本 测试文本 测试文本 测试文本: %q", name, s)
-		}
+	hasHan := false
+	for _, r := range value {
 		if unicode.Is(unicode.Hangul, r) {
-			hasHangul = true
+			t.Errorf("%s: 文案包含韩文: %q", name, value)
+		}
+		if unicode.Is(unicode.Han, r) {
+			hasHan = true
 		}
 	}
-	if !hasHangul {
-		t.Fatalf("%s: 测试文本 测试文本: %q", name, s)
+	if !hasHan {
+		t.Errorf("%s: 文案缺少中文: %q", name, value)
 	}
 }
 
@@ -32,6 +32,6 @@ func assertRetestReasonKorean(t *testing.T, name, s string) {
 // 说明。
 // 说明。
 func TestFindingRetestReasonsLocalized(t *testing.T) {
-	assertRetestReasonKorean(t, "retestNoConclusionReason", retestNoConclusionReason)
-	assertRetestReasonKorean(t, "retestServiceRestartReason", retestServiceRestartReason)
+	assertRetestReasonChinese(t, "retestNoConclusionReason", retestNoConclusionReason)
+	assertRetestReasonChinese(t, "retestServiceRestartReason", retestServiceRestartReason)
 }

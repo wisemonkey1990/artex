@@ -1,26 +1,15 @@
 #!/usr/bin/env python3
-"""检查静态导出的网页中是否意外包含中文字符。"""
+"""检查静态导出的网页是否包含韩文字符。"""
 import os
 import re
 import subprocess
 import sys
 
-# 说明。
-# 说明。
-# 说明。
-HAN = re.compile(r"[㐀-鿿豈-﫿\U00020000-\U0002ffff]")
-
-# 说明。
-# 说明。
-# 说明。
-ALLOWED_HAN: set = set()
+HANGUL = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]")
 
 
 def find_out_dir() -> str:
-    """确定要检查的 `out` 目录。
-
-    如果指定了路径则使用该路径，否则检查 Git 仓库根目录下的 `web/out`。
-    """
+    """确定要检查的 out 目录。"""
     if len(sys.argv) > 1:
         return os.path.abspath(sys.argv[1])
     root = subprocess.check_output(
@@ -48,7 +37,7 @@ def main() -> int:
             path = os.path.join(dirpath, name)
             with open(path, encoding="utf-8", errors="ignore") as fh:
                 text = fh.read()
-            found = [ch for ch in HAN.findall(text) if ch not in ALLOWED_HAN]
+            found = HANGUL.findall(text)
             if found:
                 rel = os.path.relpath(path, out_dir)
                 kinds = "".join(sorted(set(found)))
@@ -56,19 +45,15 @@ def main() -> int:
 
     print(f"已检查 {checked} 个 HTML 文件（目录：{out_dir}）")
     if offenders:
-        print(f"有 {len(offenders)} 个文件包含中文字符：")
+        print(f"有 {len(offenders)} 个文件包含韩文字符：")
         for rel, count, kinds in offenders:
             preview = kinds if len(kinds) <= 30 else kinds[:30] + "…"
-            print(f"  out/{rel}: 包含 {count} 个汉字 · 示例 {preview}")
-        print(
-            "\n请将其翻译为中文；如果是必须保留的上游原文汉字，请在"
-            "请在 scripts/check-web-cjk.py 的 ALLOWED_HAN 中添加并说明原因。"
-        )
+            print(f"  out/{rel}: 包含 {count} 个韩文字符 · 示例 {preview}")
         return 1
     if checked == 0:
         print("警告：没有检查到 HTML 文件，请确认静态构建成功。")
         return 2
-    print("中文字符泄漏为 0：面向用户的 HTML 不包含中文字符。")
+    print("韩文字符残留为 0：面向用户的 HTML 中未发现韩文。")
     return 0
 
 

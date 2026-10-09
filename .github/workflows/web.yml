@@ -44,11 +44,11 @@ jobs:
         run: npm ci
       - name: build:static（合并门禁 · 包含类型检查）
         run: npm run build:static
-      - name: UI 汉字泄漏检查（合并门禁 · out HTML 中中文为零）
+      - name: UI 韩文泄漏检查（合并门禁 · out HTML 中韩文为零）
         # 说明。
         # 说明。
         # 说明。
-        run: python3 -I ../scripts/check-web-cjk.py
+        run: python3 -I ../scripts/check-web-hangul.py
       - name: biome check（合并门禁 · lint、format、a11y 错误为零）
         if: always()
         run: npm run check
