@@ -27,21 +27,21 @@ func hasHangul(s string) bool {
 	return false
 }
 
-func assertKorean(t *testing.T, label, s string) {
+func assertChinese(t *testing.T, label, s string) {
 	t.Helper()
-	if hasHan(s) {
-		t.Errorf("%s: Chinese Han ideograph remains: %q", label, s)
+	if !hasHan(s) {
+		t.Errorf("%s: no Chinese Han ideograph found (expected Chinese): %q", label, s)
 	}
-	if !hasHangul(s) {
-		t.Errorf("%s: no Hangul found (expected Korean): %q", label, s)
+	if hasHangul(s) {
+		t.Errorf("%s: Hangul remains: %q", label, s)
 	}
 }
 
-// TestPostgresDSNErrorLocalized pins the install-path startup message to Korean.
+// TestPostgresDSNErrorLocalized pins the install-path startup message to Chinese.
 // When neither ARTEX_PG_DSN nor a config file supplies a database, PostgresDSN
 // returns an error that propagates verbatim (db.DSN → server.NewManager → the
 // `log.Fatalf("open stores: %v", err)` in cmd/artex/main.go). An operator who
-// boots with missing config sees it first, so it must read as Korean.
+// boots with missing config sees it first, so it must read as Chinese.
 func TestPostgresDSNErrorLocalized(t *testing.T) {
 	dir := t.TempDir()
 	t.Setenv("ARTEX_PG_DSN", "")
@@ -51,7 +51,7 @@ func TestPostgresDSNErrorLocalized(t *testing.T) {
 	if err == nil {
 		t.Fatal("missing config should error")
 	}
-	assertKorean(t, "startup error", err.Error())
+	assertChinese(t, "startup error", err.Error())
 
 	// The identifiers an operator must act on stay verbatim (not translated).
 	for _, want := range []string{"ARTEX_PG_DSN", "database", "dsn", "host/user/dbname"} {
@@ -66,7 +66,7 @@ func TestPostgresDSNErrorLocalized(t *testing.T) {
 }
 
 // TestPostgresDSNSourceLocalized pins the three source labels (logged at
-// server/manager.go:361) to Korean. They live in the same function as the
+// server/manager.go:361) to Chinese. They live in the same function as the
 // startup error, so they are localized together to avoid a mixed-language file.
 func TestPostgresDSNSourceLocalized(t *testing.T) {
 	dir := t.TempDir()
@@ -78,7 +78,7 @@ func TestPostgresDSNSourceLocalized(t *testing.T) {
 	if _, source, err := PostgresDSN(); err != nil {
 		t.Fatalf("env source: %v", err)
 	} else {
-		assertKorean(t, "env source", source)
+		assertChinese(t, "env source", source)
 	}
 
 	// config file dsn source
@@ -90,7 +90,7 @@ func TestPostgresDSNSourceLocalized(t *testing.T) {
 	if _, source, err := PostgresDSN(); err != nil {
 		t.Fatalf("dsn source: %v", err)
 	} else {
-		assertKorean(t, "dsn source", source)
+		assertChinese(t, "dsn source", source)
 	}
 
 	// config file fields source
@@ -100,6 +100,6 @@ func TestPostgresDSNSourceLocalized(t *testing.T) {
 	if _, source, err := PostgresDSN(); err != nil {
 		t.Fatalf("fields source: %v", err)
 	} else {
-		assertKorean(t, "fields source", source)
+		assertChinese(t, "fields source", source)
 	}
 }
