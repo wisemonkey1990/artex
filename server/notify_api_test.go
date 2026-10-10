@@ -505,9 +505,9 @@ func TestNotifyStatusChangeDelivery(t *testing.T) {
 	found := false
 	for i := 0; i < hook.count(); i++ {
 		text := markdownText(t, hook.body(t, i))
-		// 상태 변경 카드는 markdown.go 가 "**상태 변경**: %s → %s" 로, 상태값은
-		// notify.StatusLabel 이 렌더한다(fixed → "수정됨").
-		if strings.Contains(text, "상태 변경") && strings.Contains(text, "수정됨") {
+		// 상태 변경 카드는 markdown.go 가 "**状态变更**: %s → %s" 로, 상태값은
+		// notify.StatusLabel 이 렌더한다(fixed → "已修复").
+		if strings.Contains(text, "状态变更") && strings.Contains(text, "已修复") {
 			found = true
 		}
 	}

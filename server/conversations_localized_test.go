@@ -104,8 +104,10 @@ func TestConversationRetestReasonsLocalized(t *testing.T) {
 }
 
 // TestTranscriptErrorSummaryLocalized 는 활동 전사 오류 래퍼(F9)를 핀 고정한다. 채팅 턴
-// (라벨 없음)과 작업 메인 에이전트("메인 에이전트") 두 호출이 같은 "(…오류: …)" 형태로
-// 나오고, 안쪽 err 원문은 그대로 보존되며 래퍼에 중국어 한자·전각 부호가 없어야 한다.
+// (라벨 없음)과 작업 메인 에이전트("主智能体", server.go 의 실제 호출부와 동일한 라벨) 두
+// 호출이 같은 "(…错误：…)" 형태로 나오고, 안쪽 err 원문은 그대로 보존되며 래퍼에 한글이
+// 남아 있으면 안 된다. 전각 콜론(："）은 중국어 문장부호 관례상 정상이므로 괄호(（）)만
+// ASCII 로 고정됐는지 확인한다.
 func TestTranscriptErrorSummaryLocalized(t *testing.T) {
 	cases := []struct {
 		name  string
@@ -114,7 +116,7 @@ func TestTranscriptErrorSummaryLocalized(t *testing.T) {
 		want  string
 	}{
 		{"chat_turn", "", "connection reset", "(错误：connection reset)"},
-		{"main_agent", "메인 에이전트", "connection reset", "(메인 에이전트 错误：connection reset)"},
+		{"main_agent", "主智能体", "connection reset", "(主智能体 错误：connection reset)"},
 	}
 	for _, c := range cases {
 		got := transcriptErrorSummary(c.label, c.errm)
@@ -124,12 +126,12 @@ func TestTranscriptErrorSummaryLocalized(t *testing.T) {
 		if !strings.Contains(got, c.errm) {
 			t.Fatalf("%s: err 원문이 보존되지 않았습니다: %q", c.name, got)
 		}
-		// 전각 괄호·콜론이 ASCII 로 치환됐는지 확인한다(F1·fluent-korean 방침).
-		if strings.ContainsAny(got, "（）：") {
-			t.Fatalf("%s: 전각 부호가 남아 있습니다: %q", c.name, got)
+		// 괄호가 전각으로 바뀌지 않았는지 확인한다(콜론은 중국어 관례상 전각이 정상).
+		if strings.ContainsAny(got, "（）") {
+			t.Fatalf("%s: 전각 괄호가 남아 있습니다: %q", c.name, got)
 		}
-		// 래퍼 라벨에 한글이 있고 중국어 한자가 없어야 한다(err 원문은 검사 대상이 아니라
-		// ASCII 로 고정). 라벨이 없는 채팅 턴도 "오류" 한글을 포함한다.
+		// 래퍼에 한글이 없고 중국어 한자가 있어야 한다(err 원문은 검사 대상이 아니라
+		// ASCII 로 고정).
 		wrapper := strings.ReplaceAll(got, c.errm, "")
 		assertChineseMessage(t, c.name+".wrapper", wrapper)
 	}
