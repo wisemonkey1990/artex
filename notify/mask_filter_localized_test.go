@@ -18,7 +18,7 @@ func TestFilterValidateLocalized(t *testing.T) {
 	if err == nil {
 		t.Fatal("잘못된 최소 심각도인데 오류가 없습니다")
 	}
-	assertKorean(t, "Filter.Validate", err.Error())
+	assertChineseMessage(t, "Filter.Validate", err.Error())
 	// low/medium/high/critical 는 설정 enum 이라 원문 그대로 남아야 한다.
 	for _, tok := range []string{"low", "medium", "high", "critical"} {
 		if !strings.Contains(err.Error(), tok) {
@@ -41,7 +41,7 @@ func TestPrepareConfigUpdateUnknownKindLocalized(t *testing.T) {
 	if err == nil {
 		t.Fatal("미등록 채널 유형인데 오류가 없습니다")
 	}
-	assertKorean(t, "PrepareConfigUpdate unknown kind", err.Error())
+	assertChineseMessage(t, "PrepareConfigUpdate unknown kind", err.Error())
 }
 
 // TestDestinationChangedErrorLocalized 는 실제 경로로 ErrDestinationChangedWithoutCredentials
@@ -62,7 +62,7 @@ func TestDestinationChangedErrorLocalized(t *testing.T) {
 	if !errors.As(err, &de) {
 		t.Fatalf("예상한 오류 유형이 아닙니다: %T", err)
 	}
-	assertKorean(t, "ErrDestinationChangedWithoutCredentials", err.Error())
+	assertChineseMessage(t, "ErrDestinationChangedWithoutCredentials", err.Error())
 	// 바뀐 대상 키·누락된 자격 증명 키 이름은 설정 필드명이라 메시지에 그대로 들어가야 한다.
 	if !strings.Contains(err.Error(), "url") || !strings.Contains(err.Error(), "headers") {
 		t.Errorf("필드 키 이름이 누락됐습니다: %q", err.Error())
@@ -79,7 +79,7 @@ func TestRejectMaskedInContainersLocalized(t *testing.T) {
 	if err == nil {
 		t.Fatal("구조체 내부에 마스킹 센티넬을 끼워 넣었는데 오류가 없습니다")
 	}
-	assertKorean(t, "rejectMaskedInContainers", err.Error())
+	assertChineseMessage(t, "rejectMaskedInContainers", err.Error())
 	// 센티넬 리터럴(__masked__)은 운영자가 어느 값이 문제인지 알 수 있게 메시지에 표시된다.
 	if !strings.Contains(err.Error(), MaskedPrefix) {
 		t.Errorf("마스킹 센티넬이 메시지에 없습니다: %q", err.Error())
