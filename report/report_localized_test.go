@@ -77,8 +77,8 @@ func TestReportMarkdownUsesSimplifiedChinese(t *testing.T) {
 	}
 	for _, want := range []string{
 		"# 渗透测试报告：演示任务",
-		"- **任务目标**：全面检查沙箱",
-		"- **生成时间**：",
+		"- **任务目标**: 全面检查沙箱",
+		"- **生成时间**: ",
 		"## 摘要",
 		"- 已确认漏洞：**1** 项",
 		"## 漏洞",
@@ -110,7 +110,7 @@ func TestFindingsMarkdownUsesSimplifiedChinese(t *testing.T) {
 	}
 	for _, want := range []string{
 		"# 漏洞摘要报告",
-		"- **生成时间**：",
+		"- **生成时间**: ",
 		"- **漏洞总数**：1 项",
 		"## 摘要",
 		"| 严重程度 | 数量 |",
@@ -118,8 +118,8 @@ func TestFindingsMarkdownUsesSimplifiedChinese(t *testing.T) {
 		"## 漏洞详情",
 		"- **类型**: SQL Injection",
 		"- **状态**：已确认",
-		"- **所属任务**：演示目标渗透测试",
-		"- **发现时间**：",
+		"- **所属任务**: 演示目标渗透测试",
+		"- **发现时间**: ",
 		"**证据：**",
 		"**详细报告：**",
 		"## 相关流量证据",
