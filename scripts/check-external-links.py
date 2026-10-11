@@ -1,50 +1,51 @@
 #!/usr/bin/env python3
-"""추적되는 마크다운 문서가 가리키는 외부 링크(http·https)가 아직 살아 있는지 점검한다.
+"""检查受跟踪的 Markdown 文档引用的外部链接（http·https）是否仍然有效。
 
-자매 스크립트 `check-doc-links.py` 는 저장소 안 내부 링크·앵커만 보고 외부 URL 은
-설계상 건너뛴다(네트워크에 의존해 flaky 하므로 머지 게이트에서 다루지 않는다). 이
-스크립트가 그 "별도 점검"을 맡는다. README 최상단·방어 가이드·detections README 가
-방문자와 방어자에게 "여기로 가 보라"고 안내하는 외부 링크(사고 신고 창구 boho.or.kr·
-privacy.go.kr·pipc.go.kr·fsec.or.kr, CISA KEV, OWASP·SigmaHQ·Suricata·MITRE·MISP,
-원본 데모 artex-demo.vercel.app, GitHub 배지 등)가 변질·이동·폐쇄되면 조용히 깨진
-채로 남는데, 그것을 주기적으로·수동으로 잡아낸다.
+姐妹脚本 `check-doc-links.py` 只看仓库内部链接·锚点，按设计跳过外部 URL
+（依赖网络会导致结果不稳定，不适合放进合并关卡）。这个脚本承担那部分
+"另外检查"的工作。README 开头·防御指南·detections README 里给访问者和
+防御者指引"请访问这里"的外部链接（事件报告渠道 boho.or.kr·privacy.go.kr·
+pipc.go.kr·fsec.or.kr，CISA KEV，OWASP·SigmaHQ·Suricata·MITRE·MISP，
+原始演示 artex-demo.vercel.app，GitHub 徽章等）一旦变更·迁移·下线就会悄悄
+失效，本脚本负责定期·手动地抓出这些问题。
 
-점검 대상 URL 을 고르는 규칙
-- 추적되는 모든 `.md` 를 훑되, fenced code block(``` 또는 ~~~)과 인라인 코드 스팬
-  (`` `...` ``) 안의 URL 은 건너뛴다. 그 안의 URL 은 명령 예시·설정 값·인용된 외부
-  자산(예: 곁질문 검증 문서의 `id.redhaze.top`)이라 "독자가 따라갈 참조 링크"가 아니다.
-- 마크다운 링크·이미지(`[text](url)`·`![alt](url)`), 자동 링크(`<url>`), 그리고 남은
-  산문 안의 맨 URL 에서 http·https 주소를 모은다.
-- 예약·플레이스홀더 호스트는 제외한다: localhost·사설/루프백 IP(127.·10.·192.168.·
-  169.254.·172.16~31.·0.0.0.0·::1), RFC 2606/6761 예약(example.com/org/net/edu·
-  `*.example.*`·`.test`·`.invalid`·`.local`·`.tld`), 점이 없어 FQDN 이 아닌 이름(예: `target`).
+选取待检查 URL 的规则
+- 遍历所有受跟踪的 `.md`，但跳过围栏代码块（``` 或 ~~~）和行内代码片段
+  （`` `...` ``）里的 URL。那些 URL 是命令示例·配置值·引用的外部资产
+  （例如旁敲验证文档里的 `id.redhaze.top`），不是"供读者点击的参考链接"。
+- 从 Markdown 链接·图片（`[text](url)`·`![alt](url)`）、自动链接（`<url>`），
+  以及正文中裸露的 URL 里收集 http·https 地址。
+- 排除预留·占位主机：localhost·私有/回环 IP（127.·10.·192.168.·
+  169.254.·172.16~31.·0.0.0.0·::1）、RFC 2606/6761 预留域名
+  （example.com/org/net/edu·`*.example.*`·`.test`·`.invalid`·`.local`·`.tld`）、
+  没有点号不是 FQDN 的名字（例如 `target`）。
 
-살아 있는지 확인하는 방법 (MAINTAINING.md 8.2 의 교훈을 코드로 옮긴 것)
-국내 공공·보안 기관 사이트는 HEAD 요청·기본 User-Agent 를 거부하거나 여러 번
-리다이렉트하므로, 단순 확인은 멀쩡한 링크를 깨진 것으로 오인한다. 그래서 이 스크립트는
-**브라우저 User-Agent 로, GET 으로, 리다이렉트를 따라가며** 확인한다. 상태를 세 가지로
-나눈다.
-- OK: 최종 상태가 2xx·3xx. 링크가 유효하다.
-- RESTRICTED: 401·403·405·429. 호스트는 살아 있으나 확인 방법이 서버 접근 정책(봇 차단·
-  메서드 거부·속도 제한)에 막힌 것일 뿐 깨진 링크가 아니다. 보고하되 실패로 치지 않는다.
-- DOWN: 404·410·5xx(재시도 후에도)·DNS/연결/타임아웃/SSL 오류(재시도 후에도). 실제로
-  깨졌을 가능성이 높다.
+存活判定方式（把 MAINTAINING.md 8.2 的经验落实成代码）
+部分国内公共·安全机构网站会拒绝 HEAD 请求·默认 User-Agent，或做多次重定向，
+简单检测会把正常链接误判为失效。所以本脚本用**浏览器 User-Agent、GET 请求、
+跟随重定向**来检测，把状态分三类：
+- OK：最终状态是 2xx·3xx，链接有效。
+- RESTRICTED：401·403·405·429。主机本身是活的，只是检测方式被服务器访问
+  策略（防爬虫·拒绝该方法·限流）挡住了，不算失效链接，会报告但不计入失败。
+- DOWN：404·410·5xx（重试后仍是）·DNS/连接/超时/SSL 错误（重试后仍是）。
+  很可能是真的失效了。
 
-네트워크 오류·5xx·429 는 소폭 지연을 두고 재시도해 일시적 깜빡임과 진짜 장애를 가른다.
-표준 라이브러리만 쓴다. 이 스크립트는 저장소의 **공개 문서가 이미 가리키는** 참조 URL 에만
-GET 을 보내 생존을 확인할 뿐, 어떤 대상도 스캔·탐침하지 않는다.
+网络错误·5xx·429 会在小幅延迟后重试，用来区分瞬时抖动和真正故障。
+只使用标准库。本脚本只会对**仓库公开文档已经引用的**链接发 GET 请求来确认
+存活，不会扫描或探测任何其他目标。
 
-알려진 예외(allowlist)
-`scripts/external-links-allowlist.txt` 에 적힌 URL 이 DOWN 으로 나오면 "ALLOWED" 로 따로
-분류하고 strict 종료 코드에 넣지 않는다. 우리가 소유하지 않아 고칠 수 없는, 상류 원문 보존
-파일(예: 상류 CHANGELOG.zh.md)이 물려받은 죽은 링크를 투명하게 기록해, 주기 strict 점검이
-그 하나 때문에 영구히 빨갛게 되지 않고 **새로 깨진 링크가 생길 때만** 빨갛게 되도록 한다.
+已知例外（allowlist）
+如果 `scripts/external-links-allowlist.txt` 中列出的 URL 检测为 DOWN，会单独
+归类为"ALLOWED"，不计入 strict 模式的退出码。这是为了透明记录那些我们不拥有、
+无法修复、从上游原文保留文件（例如上游 CHANGELOG.zh.md）继承来的失效链接，
+让周期性的 strict 检查不会因为这一个问题永远变红，只在**出现新的失效链接**时
+才变红。
 
-실행
-- 기본(보고·종료 코드 0): `python3 -I scripts/check-external-links.py`
-- 머지 게이트가 아닌 주기/릴리스 점검(새로 깨진 링크가 있으면 빨갛게): `--strict` (allowlist 에
-  없는 DOWN 이 하나라도 있으면 종료 코드 1). RESTRICTED·ALLOWED 는 strict 에서도 실패로 치지 않는다.
-- 네트워크 없이 추출 집합만 미리 보기: `--list` (호출 없이 점검 대상 URL 과 출처를 출력).
+运行方式
+- 默认（仅报告，退出码 0）：`python3 -I scripts/check-external-links.py`
+- 非合并关卡的周期/发布检查（有新的失效链接就变红）：`--strict`（出现任何不在
+  allowlist 中的 DOWN 就退出码 1；RESTRICTED·ALLOWED 在 strict 下也不算失败）。
+- 不发网络请求，只预览提取到的 URL 集合：`--list`（打印待检查的 URL 及出处，不发请求）。
 """
 import argparse
 import http.client
@@ -60,19 +61,19 @@ import urllib.request
 from collections import defaultdict
 from urllib.parse import urlsplit
 
-# [text](url) 본문 링크(이미지 아님)와 ![alt](url) 이미지. 경로는 공백·닫는 괄호 전까지.
+# [text](url) 正文链接（非图片）与 ![alt](url) 图片。路径取到空白或右括号之前。
 MD_LINK = re.compile(r"(?<!\!)\[[^\]]*\]\(([^)\s]+)")
 MD_IMAGE = re.compile(r"!\[[^\]]*\]\(([^)\s]+)")
-# <https://...> 자동 링크.
+# <https://...> 自动链接。
 AUTOLINK = re.compile(r"<(https?://[^>\s]+)>")
-# 산문 안의 맨 URL. 뒤따르는 구두점은 뒤에서 벗겨낸다.
+# 正文中裸露的 URL。末尾常见的标点会在后面去掉。
 BARE_URL = re.compile(r"https?://[^\s)>\]\"'`]+")
-# 인라인 코드 스팬 `...` (단일 백틱). 추출 전에 공백으로 지운다.
+# 行内代码片段 `...`（单反引号）。提取前先替换成空格。
 INLINE_CODE = re.compile(r"`[^`]*`")
-# 산문 URL 끝에 흔히 붙는 구두점.
+# 正文 URL 末尾常见的标点符号。
 TRAILING_PUNCT = ".,;:!?\"'»)]}>"
 
-# IPv4 사설/루프백/링크로컬 대역(172.16~31. 은 별도 패턴).
+# IPv4 私有/回环/链路本地网段（172.16~31. 单独一条规则）。
 PRIVATE_IPV4 = re.compile(r"^(127\.|10\.|192\.168\.|169\.254\.|0\.0\.0\.0$)")
 PRIVATE_IPV4_172 = re.compile(r"^172\.(1[6-9]|2\d|3[01])\.")
 
@@ -81,16 +82,16 @@ BROWSER_UA = (
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36"
 )
 
-# 호스트는 살아 있으나 확인 방법이 서버 정책에 막힌 상태 코드(깨짐 아님).
+# 主机本身是活的，只是检测方式被服务器策略挡住的状态码（不算失效）。
 RESTRICTED_CODES = {401, 403, 405, 429}
 
 ALLOWLIST_PATH = os.path.join("scripts", "external-links-allowlist.txt")
 
 
 def load_allowlist(root: str) -> set:
-    """우리가 고칠 수 없는 알려진 DOWN URL 집합을 읽는다(없으면 빈 집합).
+    """读取我们无法修复的已知 DOWN URL 集合（不存在则返回空集合）。
 
-    한 줄에 URL 하나. `#` 뒤는 주석, 빈 줄·주석 전용 줄은 무시한다.
+    每行一个 URL，`#` 之后是注释，空行·纯注释行忽略。
     """
     path = os.path.join(root, ALLOWLIST_PATH)
     allow = set()
@@ -105,12 +106,12 @@ def load_allowlist(root: str) -> set:
 
 
 def strip_code(line: str) -> str:
-    """fence 밖 한 줄에서 인라인 코드 스팬을 지운다(그 안의 URL 은 참조가 아니다)."""
+    """去掉围栏之外一行里的行内代码片段（其中的 URL 不是引用）。"""
     return INLINE_CODE.sub(" ", line)
 
 
 def is_checkable(url: str) -> bool:
-    """예약·플레이스홀더 호스트를 걸러, 실제 점검할 가치가 있는 외부 URL 만 남긴다."""
+    """过滤掉预留·占位主机，只留下真正值得检查的外部 URL。"""
     parts = urlsplit(url)
     if parts.scheme not in ("http", "https"):
         return False
@@ -130,13 +131,13 @@ def is_checkable(url: str) -> bool:
         return False
     if host.endswith((".test", ".invalid", ".local", ".localdomain", ".tld")):
         return False
-    if "." not in host:  # FQDN 이 아닌 맨 이름(예: target)
+    if "." not in host:  # 不是 FQDN 的裸名字（例如 target）
         return False
     return True
 
 
 def extract(root: str, md_files: list) -> dict:
-    """추적 .md 에서 점검할 외부 URL → [(파일, 줄번호), ...] 사전을 만든다."""
+    """从受跟踪的 .md 中构建 待检查外部 URL → [(文件, 行号), ...] 的字典。"""
     found = defaultdict(list)
     for md in md_files:
         with open(os.path.join(root, md), encoding="utf-8", errors="ignore") as fh:
@@ -165,9 +166,9 @@ def extract(root: str, md_files: list) -> dict:
 
 
 def probe(url: str, timeout: float, retries: int, delay: float):
-    """URL 에 브라우저 UA 로 GET 을 보내 (분류, 상세) 를 돌려준다.
+    """用浏览器 UA 对 URL 发 GET 请求，返回（分类, 详情）。
 
-    분류는 "OK" · "RESTRICTED" · "DOWN". 네트워크 오류·5xx·429 는 재시도한다.
+    分类为 "OK" · "RESTRICTED" · "DOWN"。网络错误·5xx·429 会重试。
     """
     req = urllib.request.Request(
         url,
@@ -191,9 +192,9 @@ def probe(url: str, timeout: float, retries: int, delay: float):
             if code in RESTRICTED_CODES:
                 return "RESTRICTED", f"HTTP {code}"
             if code >= 500 or code == 408:
-                last = f"HTTP {code}"  # 일시적일 수 있어 재시도
+                last = f"HTTP {code}"  # 可能是暂时的，重试
             else:
-                return "DOWN", f"HTTP {code}"  # 404·410 등은 확정, 재시도 불요
+                return "DOWN", f"HTTP {code}"  # 404·410 等是确定的，无需重试
         except (
             urllib.error.URLError,
             http.client.HTTPException,
@@ -211,14 +212,14 @@ def probe(url: str, timeout: float, retries: int, delay: float):
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="추적 마크다운의 외부 링크 생존 점검")
+    ap = argparse.ArgumentParser(description="检查受跟踪 Markdown 中外部链接的存活状态")
     ap.add_argument("--strict", action="store_true",
-                    help="DOWN 이 하나라도 있으면 종료 코드 1 (주기/릴리스 점검용)")
+                    help="只要有一个 DOWN 就退出码 1（用于周期/发布检查）")
     ap.add_argument("--list", action="store_true",
-                    help="네트워크 호출 없이 점검 대상 URL 과 출처만 출력")
-    ap.add_argument("--timeout", type=float, default=15.0, help="요청 타임아웃(초)")
-    ap.add_argument("--retries", type=int, default=2, help="네트워크 오류·5xx·429 재시도 횟수")
-    ap.add_argument("--delay", type=float, default=0.5, help="호출 간·재시도 간 기본 지연(초)")
+                    help="不发网络请求，只打印待检查的 URL 及出处")
+    ap.add_argument("--timeout", type=float, default=15.0, help="请求超时（秒）")
+    ap.add_argument("--retries", type=int, default=2, help="网络错误·5xx·429 的重试次数")
+    ap.add_argument("--delay", type=float, default=0.5, help="请求之间·重试之间的基础延迟（秒）")
     args = ap.parse_args()
 
     root = subprocess.check_output(
@@ -230,7 +231,7 @@ def main() -> int:
     allow = load_allowlist(root)
     found = extract(root, md_files)
     urls = sorted(found)
-    print(f"추적 마크다운 {len(md_files)}개에서 점검 대상 외부 URL {len(urls)}개 수집")
+    print(f"从受跟踪 Markdown {len(md_files)} 个文件中收集到待检查外部 URL {len(urls)} 个")
 
     if args.list:
         for url in urls:
@@ -242,31 +243,31 @@ def main() -> int:
     results = {"OK": [], "RESTRICTED": [], "ALLOWED": [], "DOWN": []}
     for i, url in enumerate(urls):
         if i:
-            time.sleep(args.delay)  # 호출 간 소폭 지연(샌드박스 조절 회피)
+            time.sleep(args.delay)  # 请求之间的小幅延迟（规避沙箱限流）
         verdict, detail = probe(url, args.timeout, args.retries, args.delay)
         if verdict == "DOWN" and url in allow:
-            verdict = "ALLOWED"  # 고칠 수 없는 알려진 상류 상속 DOWN
+            verdict = "ALLOWED"  # 无法修复的已知上游继承 DOWN
         results[verdict].append((url, detail))
         print(f"  [{verdict:10}] {url} — {detail}")
 
     print(
-        f"\n요약: OK {len(results['OK'])} · RESTRICTED {len(results['RESTRICTED'])} · "
+        f"\n汇总：OK {len(results['OK'])} · RESTRICTED {len(results['RESTRICTED'])} · "
         f"ALLOWED {len(results['ALLOWED'])} · DOWN {len(results['DOWN'])}"
     )
     if results["RESTRICTED"]:
-        print("RESTRICTED(호스트 생존·확인 방법이 막힘, 깨진 링크 아님):")
+        print("RESTRICTED（主机存活·检测方式被挡住，不是失效链接）：")
         for url, detail in results["RESTRICTED"]:
             print(f"  {url} — {detail}")
     if results["ALLOWED"]:
-        print("ALLOWED(allowlist 에 적힌 알려진 DOWN — 우리가 고칠 수 없어 strict 제외):")
+        print("ALLOWED（allowlist 中记录的已知 DOWN —— 我们无法修复，strict 模式不计入）：")
         for url, detail in results["ALLOWED"]:
             where = ", ".join(f"{f}:{ln}" for f, ln in found[url])
-            print(f"  {url} — {detail}  (참조: {where})")
+            print(f"  {url} — {detail}  （引用处：{where}）")
     if results["DOWN"]:
-        print("DOWN(깨졌을 가능성 높음 — 확인 필요):")
+        print("DOWN（很可能已失效 —— 需要确认）：")
         for url, detail in results["DOWN"]:
             where = ", ".join(f"{f}:{ln}" for f, ln in found[url])
-            print(f"  {url} — {detail}  (참조: {where})")
+            print(f"  {url} — {detail}  （引用处：{where}）")
 
     if args.strict and results["DOWN"]:
         return 1
