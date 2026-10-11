@@ -178,8 +178,7 @@ export const taskTemplates: TaskTemplate[] = [
   {
     id: 1,
     name: "外部 Web 渗透",
-    description:
-      "对目标互联网暴露面进行黑盒渗透测试，覆盖网站、端点和常见管理入口。",
+    description: "对目标互联网暴露面进行黑盒渗透测试，覆盖网站、端点和常见管理入口。",
     goal: "识别并验证可造成未授权访问、敏感数据泄露或服务器失陷的安全问题。",
     created_at: T("2026-07-20T08:00:00Z"),
     updated_at: T("2026-07-25T08:00:00Z"),
@@ -595,8 +594,7 @@ export const findings: Finding[] = [
     report:
       '## 漏洞概述\n\n`www.acme.com/search` 的 `q` 参数存在**报错型 SQL 注入**（MSSQL），可读取数据库版本、库结构乃至敏感数据。\n\n## 影响\n\n- 可读取 `acme_prod` 库的表结构与用户/订单数据\n- 报错回显便于快速构造利用，风险高\n\n## 复现步骤\n\n1. 触发报错注入：\n\n```\nGET /search?q=1\' AND 1=CONVERT(int,@@version)--\n```\n\n2. 响应回显 MSSQL 版本报错，确认可注入\n3. 进一步枚举库：`sqlmap -u "https://www.acme.com/search?q=1" --dbs`\n\n## 修复建议\n\n- 全部改用参数化查询/预编译语句，杜绝字符串拼接\n- 关闭生产环境详细报错回显\n- 数据库账号最小权限，禁用 `xp_cmdshell` 等危险扩展\n',
     summary: "www.acme.com/search q 参数存在报错型 SQL 注入",
-    evidence:
-      "GET /search?q=1' AND 1=CONVERT(int,@@version)-- → 返回 MSSQL 版本错误信息，可读取数据库结构。",
+    evidence: "GET /search?q=1' AND 1=CONVERT(int,@@version)-- → 返回 MSSQL 版本错误信息，可读取数据库结构。",
     intent_id: "i-2",
     task_id: "t-acme-web",
     task_description: "Acme 官网与后台外部渗透",
@@ -1322,8 +1320,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "p0-probe",
     summary: "curl -sI https://acme.com; curl -sI https://admin.acme.com",
-    detail:
-      "当前几乎没有初始信息，因此最多执行 3 次只读探测来校准初始意图方向（不做枚举或验证，这些由 worker 负责）。",
+    detail: "当前几乎没有初始信息，因此最多执行 3 次只读探测来校准初始意图方向（不做枚举或验证，这些由 worker 负责）。",
   },
   {
     seq: 1003,
@@ -1334,8 +1331,7 @@ export const activity: Activity[] = [
     tool_use_id: "p0-probe",
     summary:
       "acme.com → 302 → www；Server: nginx/1.24.0\nadmin.acme.com → 200，未提供 X-Powered-By，从响应正文检测到 element-ui/vue 特征",
-    detail:
-      "admin 是独立的后台登录页。已确认五个入口均有效，可以据此细化初始意图说明。",
+    detail: "admin 是独立的后台登录页。已确认五个入口均有效，可以据此细化初始意图说明。",
   },
   {
     seq: 1004,
@@ -1397,8 +1393,7 @@ export const activity: Activity[] = [
     tool_use_id: "p1-nd",
     summary:
       "faGit 证据：通过 git-dumper 还原 config.php / db.php / order_api.php。config.php 中的 $db=['host'=>'10.10.10.5','user'=>'sa','pass'=>'Acme@2021']",
-    detail:
-      "硬编码值指向内网 10.10.10.5（FS01），支持 faCreds 对“内网共用凭据”的判断。RCE 建立后可尝试复用这组密码。",
+    detail: "硬编码值指向内网 10.10.10.5（FS01），支持 faCreds 对“内网共用凭据”的判断。RCE 建立后可尝试复用这组密码。",
   },
   {
     seq: 1104,
@@ -1736,8 +1731,7 @@ export const activity: Activity[] = [
     intent_id: "i2",
     ts: T("2026-07-26T03:31:00Z"),
     kind: "thinking",
-    summary:
-      "后台使用 Element-UI，登录端点没有验证码或速率限制。先尝试常见默认密码，再进行字典攻击。",
+    summary: "后台使用 Element-UI，登录端点没有验证码或速率限制。先尝试常见默认密码，再进行字典攻击。",
   },
   {
     seq: 21,
@@ -1927,8 +1921,7 @@ export const activity: Activity[] = [
     intent_id: "i5",
     ts: T("2026-07-26T02:31:00Z"),
     kind: "thinking",
-    summary:
-      "/v1/orders?id= 使用递增数字 id，存在典型 IDOR 风险。先查询自己的订单，再更改 id 验证能否读取他人订单。",
+    summary: "/v1/orders?id= 使用递增数字 id，存在典型 IDOR 风险。先查询自己的订单，再更改 id 验证能否读取他人订单。",
   },
   {
     seq: 51,
@@ -1998,8 +1991,7 @@ export const activity: Activity[] = [
     intent_id: "i5",
     ts: T("2026-07-26T03:58:10Z"),
     kind: "thinking",
-    summary:
-      "正在遍历 id 范围以评估越权可访问的数据规模（暂不导出，以避免触发拦截规则）。",
+    summary: "正在遍历 id 范围以评估越权可访问的数据规模（暂不导出，以避免触发拦截规则）。",
   },
 
   // work#3 · i3 后台用户接口枚举（running）
@@ -2009,8 +2001,7 @@ export const activity: Activity[] = [
     intent_id: "i3",
     ts: T("2026-07-26T03:56:00Z"),
     kind: "thinking",
-    summary:
-      "已取得后台会话，正在枚举管理端点，寻找可批量导出用户敏感数据的入口（目标②）。",
+    summary: "已取得后台会话，正在枚举管理端点，寻找可批量导出用户敏感数据的入口（目标②）。",
   },
   {
     seq: 61,
@@ -2039,8 +2030,7 @@ export const activity: Activity[] = [
     intent_id: "i3",
     ts: T("2026-07-26T03:58:20Z"),
     kind: "thinking",
-    summary:
-      "已确认存在批量读取用户数据的入口。导出操作命中破坏性操作/数据外传规则，已提交拦截审批并等待处理。",
+    summary: "已确认存在批量读取用户数据的入口。导出操作命中破坏性操作/数据外传规则，已提交拦截审批并等待处理。",
   },
 
   // workG · ig .git 源码泄露与硬编码凭据（done）
@@ -2050,8 +2040,7 @@ export const activity: Activity[] = [
     intent_id: "ig",
     ts: T("2026-07-25T20:26:00Z"),
     kind: "thinking",
-    summary:
-      "robots.txt 提到了 /.git。先探测能否下载该目录；若取得源代码，可通过白盒分析查找注入点和硬编码密钥。",
+    summary: "robots.txt 提到了 /.git。先探测能否下载该目录；若取得源代码，可通过白盒分析查找注入点和硬编码密钥。",
   },
   {
     seq: 311,
@@ -2114,8 +2103,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "tg3",
     summary: "$db_user='sa'; $db_pass='Acme@2021'; $db_host='10.10.10.30';",
-    detail:
-      "数据库密码被硬编码，host 指向内网 IP。将其记录为疑似内网共用凭据。",
+    detail: "数据库密码被硬编码，host 指向内网 IP。将其记录为疑似内网共用凭据。",
   },
   {
     seq: 317,
@@ -2123,8 +2111,7 @@ export const activity: Activity[] = [
     intent_id: "ig",
     ts: T("2026-07-25T20:36:00Z"),
     kind: "result",
-    summary:
-      "已确认源代码泄露和硬编码数据库凭据，并将其加入图谱，供后续尝试在内网复用。",
+    summary: "已确认源代码泄露和硬编码数据库凭据，并将其加入图谱，供后续尝试在内网复用。",
     input_tokens: 88000,
     output_tokens: 5200,
     cache_read_tokens: 60000,
@@ -2138,8 +2125,7 @@ export const activity: Activity[] = [
     intent_id: "i6",
     ts: T("2026-07-25T14:22:00Z"),
     kind: "thinking",
-    summary:
-      "shop.acme.com 是自研电商系统。先识别框架和组件版本，再检查存在已知反序列化漏洞的组件。",
+    summary: "shop.acme.com 是自研电商系统。先识别框架和组件版本，再检查存在已知反序列化漏洞的组件。",
   },
   {
     seq: 321,
@@ -2301,8 +2287,7 @@ export const activity: Activity[] = [
     intent_id: "i8",
     ts: T("2026-07-25T16:02:00Z"),
     kind: "thinking",
-    summary:
-      "www-data 权限有限，先收集本机信息以寻找提权路径：sudo 配置、SUID 和内核版本。",
+    summary: "www-data 权限有限，先收集本机信息以寻找提权路径：sudo 配置、SUID 和内核版本。",
   },
   {
     seq: 341,
@@ -2376,8 +2361,7 @@ export const activity: Activity[] = [
     intent_id: "i9",
     ts: T("2026-07-25T20:32:00Z"),
     kind: "thinking",
-    summary:
-      "当前立足点直接连接 10.10.10.0/24，将使用 fscan 和内网扫描发现主机、端口，并识别域控制器及高价值主机。",
+    summary: "当前立足点直接连接 10.10.10.0/24，将使用 fscan 和内网扫描发现主机、端口，并识别域控制器及高价值主机。",
   },
   {
     seq: 351,
@@ -2555,8 +2539,7 @@ export const activity: Activity[] = [
     intent_id: "i12",
     ts: T("2026-07-25T22:42:00Z"),
     kind: "thinking",
-    summary:
-      "使用 svc_deploy 凭据进行域身份验证，并通过 GetUserSPNs 请求可进行 Kerberoasting 的服务账户 TGS。",
+    summary: "使用 svc_deploy 凭据进行域身份验证，并通过 GetUserSPNs 请求可进行 Kerberoasting 的服务账户 TGS。",
   },
   {
     seq: 381,
@@ -3291,8 +3274,7 @@ export const skills: SkillItem[] = [
   },
   {
     name: "playwright-cli",
-    description:
-      "使用 Playwright 驱动浏览器执行动态爬取和截图，适用于需要渲染 JavaScript 的网站。",
+    description: "使用 Playwright 驱动浏览器执行动态爬取和截图，适用于需要渲染 JavaScript 的网站。",
     mcps: ["playwright"],
     files: ["SKILL.md"],
     calls: 7,
@@ -3579,8 +3561,7 @@ export const interceptDetails: Record<number, InterceptAudit> = {
     tool_use_id: "call-write-report",
     correlation: "exact",
     input_digest: "a3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458ec1234",
-    user_message:
-      "整理已完成的检查，将结论和证据索引写入 reports/summary.md。\n保留待验证项目，不要修改业务数据。",
+    user_message: "整理已完成的检查，将结论和证据索引写入 reports/summary.md。\n保留待验证项目，不要修改业务数据。",
     context: [
       { kind: "user", text: "汇总本轮已有证据，生成检查摘要。" },
       {
@@ -3665,8 +3646,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       worker: "mainagent",
       ts: T("2026-07-25T10:00:04Z"),
       kind: "thinking",
-      summary:
-        "先确认 admin.acme.com 登录页的技术栈和防护措施（验证码/速率限制），再决定尝试默认密码还是字典攻击。",
+      summary: "先确认 admin.acme.com 登录页的技术栈和防护措施（验证码/速率限制），再决定尝试默认密码还是字典攻击。",
     },
     {
       seq: 3,
@@ -3800,8 +3780,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       worker: "mainagent",
       ts: T("2026-07-25T15:45:05Z"),
       kind: "thinking",
-      summary:
-        "www-data 权限不足以在内网横向移动，因此先尝试本地提权。获得 root 后，以 DMZ 主机为跳板探测存活主机。",
+      summary: "www-data 权限不足以在内网横向移动，因此先尝试本地提权。获得 root 后，以 DMZ 主机为跳板探测存活主机。",
     },
     {
       seq: 3,
@@ -4068,8 +4047,7 @@ const WS_TREE: Record<string, { name: string; dir: boolean; size: number; conten
       name: "notes.md",
       dir: false,
       size: 96,
-      content:
-        "# 工作区笔记\n\n（演示）这是工作区根目录中的示例文件，可在线编辑并保存。\n",
+      content: "# 工作区笔记\n\n（演示）这是工作区根目录中的示例文件，可在线编辑并保存。\n",
     },
   ],
   "t-001": [
